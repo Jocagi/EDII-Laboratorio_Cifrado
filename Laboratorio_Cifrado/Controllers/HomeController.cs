@@ -26,5 +26,7 @@ namespace Laboratorio_Cifrado.Controllers
 
             return View();
         }
+
+
     }
 }
