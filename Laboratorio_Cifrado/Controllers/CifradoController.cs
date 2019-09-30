@@ -12,7 +12,8 @@ namespace Laboratorio_Cifrado.Controllers
 {
     public class CifradoController : Controller
     {
-        public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
+        public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~Archivo/Uploads");
+        public static string mensaje = "";
         public static string currentFile = "";
         // GET: Cifrado
         public ActionResult Index()
@@ -40,6 +41,37 @@ namespace Laboratorio_Cifrado.Controllers
         }
         #endregion
 
+
+        #region ZigZag
+
+        public ActionResult CifrarZigZag()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CifrarZigZag(HttpPostedFileBase file)
+        {
+            try
+            {
+                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
+              //  int corrimiento = Convert.ToInt32(Request.Form["niveles"]);
+
+                UploadFile(path, file);
+              //  ZigZag.Cifrado(path, corrimiento);
+                
+                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "ERROR:" + ex.Message;
+                throw;
+            }       
+
+            return RedirectToAction("CifrarZigZag");
+        }
+
+        #endregion
         #region up
         public void UploadFile(string path, HttpPostedFileBase file)
         {
@@ -66,36 +98,6 @@ namespace Laboratorio_Cifrado.Controllers
                 ViewBag.Message = "No ha especificado un archivo.";
             }
         }
-        #endregion
-
-        #region ZigZag
-
-        public ActionResult CifrarZigZag()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CifrarZigZag(HttpPostedFileBase file)
-        {
-            try
-            {
-                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
-
-                UploadFile(path, file);
-              //  ZigZag.Cifrado(path, corrimiento);
-                
-                
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "ERROR:" + ex.Message;
-                throw;
-            }
-
-            return RedirectToAction("Index");
-        }
-
         #endregion
     }
 }
