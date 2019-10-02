@@ -14,12 +14,48 @@ namespace Laboratorio_Cifrado.Controllers
     {
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
         public static string currentFile = "";
+
         // GET: Cifrado
         public ActionResult Index()
         {
             return View();
         }
-        #region down
+        [HttpPost]
+        public ActionResult Index(HttpPostedFileBase file, string password, string cifrado, string operacion)
+        {
+            //Validar datos de entrada
+            //ToDo...
+
+            switch (operacion)
+            {
+                case "1": //Cifrar
+                    switch (cifrado)
+                    {
+                        case "1": //Cesar
+                            break;
+                        case "2": //Zig Zag
+                            break;
+                        case "3": //Espiral
+                            break;
+                    }
+                    break;
+                case "2": //Descifrar
+                    switch (cifrado)
+                    {
+                        case "1": //Cesar
+                            break;
+                        case "2": //Zig Zag
+                            break;
+                        case "3": //Espiral
+                            break;
+                    }
+                    break;
+            }
+            
+            return View();
+        }
+        
+        #region download
         public ActionResult DownloadFile()
         {
             string path = currentFile;
@@ -40,7 +76,8 @@ namespace Laboratorio_Cifrado.Controllers
         }
         #endregion
 
-        #region up
+        #region upload
+
         public void UploadFile(string path, HttpPostedFileBase file)
         {
             //Subir archivos al servidor
@@ -83,7 +120,7 @@ namespace Laboratorio_Cifrado.Controllers
                 string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
 
                 UploadFile(path, file);
-              //  ZigZag.Cifrado(path, corrimiento);
+            //    ZigZag.Cifrado(path, corrimiento);
                 
                 
             }
