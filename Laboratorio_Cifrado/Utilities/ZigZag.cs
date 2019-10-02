@@ -24,7 +24,7 @@ namespace Laboratorio_Cifrado.Utilities
 
             string mensaje = Data;
             //Quitar caracteres en espacios
-            mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
+            //mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
             var lineas = new List<StringBuilder>();
             int niveles = corrimiento;
 
@@ -59,12 +59,12 @@ namespace Laboratorio_Cifrado.Utilities
 
         }
 
-        public void Descifrar(string path, int corrimiento)
+        public static void Descifrar(string path, int corrimiento)
         {
 
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
             string mensaje = Data;
-            mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
+           // mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
             var lineas = new List<StringBuilder>();
             int niveles = corrimiento;
 

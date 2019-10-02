@@ -12,7 +12,7 @@ namespace Laboratorio_Cifrado.Controllers
 {
     public class CifradoController : Controller
     {
-        public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~Archivo/Uploads");
+        public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
         public static string mensaje = "";
         public static string currentFile = "";
         // GET: Cifrado
@@ -50,15 +50,16 @@ namespace Laboratorio_Cifrado.Controllers
         }
 
         [HttpPost]
-        public ActionResult CifrarZigZag(HttpPostedFileBase file)
+        public ActionResult CifrarZigZag(HttpPostedFileBase file, string niveles)
         {
             try
             {
                 string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
-              //  int corrimiento = Convert.ToInt32(Request.Form["niveles"]);
+                //string path = directorioUploads;
+                int corrimiento = Convert.ToInt32(niveles);
 
                 UploadFile(path, file);
-              //  ZigZag.Cifrado(path, corrimiento);
+                ZigZag.Cifrado(path, corrimiento);
                 
                 
             }
@@ -71,8 +72,39 @@ namespace Laboratorio_Cifrado.Controllers
             return RedirectToAction("CifrarZigZag");
         }
 
+        #region descifrar zigzag
+
+        public ActionResult DescifrarZigZag()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DescifrarZigZag(HttpPostedFileBase file, string niveles)
+        {
+            try
+            {
+                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
+                //string path = directorioUploads;
+                int corrimiento = Convert.ToInt32(niveles);
+
+                UploadFile(path, file);
+                ZigZag.Descifrar(path, corrimiento);
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "ERROR:" + ex.Message;
+                throw;
+            }
+
+            return RedirectToAction("DescifrarZigZag");
+        }
         #endregion
-        #region up
+
+        #endregion
+        #region Archivo
         public void UploadFile(string path, HttpPostedFileBase file)
         {
             //Subir archivos al servidor

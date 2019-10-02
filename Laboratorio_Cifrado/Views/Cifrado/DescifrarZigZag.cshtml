@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "CifrarZigZag";
+    ViewBag.Title = "DescifrarZigZag";
 }
 
 <h2>CifrarZigZag</h2>
@@ -8,7 +8,7 @@
     <h3>Subir Archivo a comprimir</h3>
 </div>
 
-@using (Html.BeginForm("CifrarZigZag", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("DescifrarZigZag", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <label for="file"> Subir Archivo: </label>
     <input type="file" name="file" id="file" />
@@ -17,4 +17,3 @@
     <br />
     @ViewBag.Message
 }
-    <a href="~/Views/Cifrado/CifrarZigZag.cshtml">~/Views/Cifrado/CifrarZigZag.cshtml</a>
