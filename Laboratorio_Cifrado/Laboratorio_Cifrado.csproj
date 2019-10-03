@@ -190,6 +190,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Cifrado\ZigZag.cshtml" />
+    <Content Include="Views\Cifrado\Index.cshtml" />
     <Content Include="Views\Cifrado\CifrarZigZag.cshtml" />
     <Content Include="Views\Cifrado\DescifrarZigZag.cshtml" />
   </ItemGroup>
