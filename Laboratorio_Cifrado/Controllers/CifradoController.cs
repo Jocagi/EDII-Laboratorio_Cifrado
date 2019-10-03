@@ -38,6 +38,8 @@ namespace Laboratorio_Cifrado.Controllers
                     {
                         case "1": //Cesar
                             
+                            Cesar.Cifrado(path, password);
+
                             break;
                         case "2": //Zig Zag
 
@@ -53,6 +55,9 @@ namespace Laboratorio_Cifrado.Controllers
                     switch (cifrado)
                     {
                         case "1": //Cesar
+
+                            //Cesar.Descifrar();
+
                             break;
                         case "2": //Zig Zag
 
