@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "CifrarZigZag";
+}
+
+<h2>CifrarZigZag</h2>
+<div class="jumbotron">
+    <h3>Subir Archivo a comprimir</h3>
+</div>
+
+@using (Html.BeginForm("CifrarZigZag", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <label for="file"> Subir Archivo: </label>
+    <input type="file" name="file" id="file" />
+    <label>Niveles: </label><input type="text" name="niveles" value="niveles" />
+    <input type="submit" value="Upload File" />
+    <br />
+    @ViewBag.Message
+}
+    <a href="~/Views/Cifrado/CifrarZigZag.cshtml">~/Views/Cifrado/CifrarZigZag.cshtml</a>

@@ -13,6 +13,7 @@ namespace Laboratorio_Cifrado.Controllers
     public class CifradoController : Controller
     {
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
+        public static string mensaje = "";
         public static string currentFile = "";
 
         // GET: Cifrado
@@ -23,6 +24,10 @@ namespace Laboratorio_Cifrado.Controllers
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase file, string password, string cifrado, string operacion)
         {
+            string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
+            
+            UploadFile(path, file);
+            
             //Validar datos de entrada
             //ToDo...
 
@@ -32,8 +37,13 @@ namespace Laboratorio_Cifrado.Controllers
                     switch (cifrado)
                     {
                         case "1": //Cesar
+                            
                             break;
                         case "2": //Zig Zag
+
+                            int corrimiento  = Convert.ToInt32(password);
+                            ZigZag.Cifrado(path, corrimiento);
+
                             break;
                         case "3": //Espiral
                             break;
@@ -45,6 +55,10 @@ namespace Laboratorio_Cifrado.Controllers
                         case "1": //Cesar
                             break;
                         case "2": //Zig Zag
+
+                            int corrimiento = Convert.ToInt32(password);
+                            ZigZag.Cifrado(path, corrimiento);
+
                             break;
                         case "3": //Espiral
                             break;
@@ -76,8 +90,8 @@ namespace Laboratorio_Cifrado.Controllers
         }
         #endregion
 
-        #region upload
-
+        
+        #region Archivo
         public void UploadFile(string path, HttpPostedFileBase file)
         {
             //Subir archivos al servidor
@@ -103,36 +117,6 @@ namespace Laboratorio_Cifrado.Controllers
                 ViewBag.Message = "No ha especificado un archivo.";
             }
         }
-        #endregion
-
-        #region ZigZag
-
-        public ActionResult CifrarZigZag()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CifrarZigZag(HttpPostedFileBase file)
-        {
-            try
-            {
-                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
-
-                UploadFile(path, file);
-            //    ZigZag.Cifrado(path, corrimiento);
-                
-                
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "ERROR:" + ex.Message;
-                throw;
-            }
-
-            return RedirectToAction("Index");
-        }
-
         #endregion
     }
 }
