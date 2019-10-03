@@ -66,7 +66,15 @@ namespace Laboratorio_Cifrado.Utilities
             ListaFinal = Repetidos.Union(Diferentes).ToList();
             var diccionario = alfabeto.Zip(ListaFinal, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
             List<char> Cifrado = Data.ToList();
-            var llaves = diccionario.Where(kvp => Cifrado.Any(y => y == kvp.Value))
+            List<char> CifradoFinal = new List<char>();
+            foreach (var item in Data)
+            {
+                if(diccionario.ContainsKey(item))
+                {
+                    CifradoFinal.Add('k');
+                }
+            }
+          /*  var llaves = diccionario.Where(kvp => Cifrado.Any(y => y == kvp.Value))
                 .Select(kvp => new
                 {
                     k = kvp.Key,
@@ -74,7 +82,7 @@ namespace Laboratorio_Cifrado.Utilities
             foreach(var key in llaves)
             {
                 Console.WriteLine(key);
-            }
+            }*/
 
             Console.ReadKey();
 
