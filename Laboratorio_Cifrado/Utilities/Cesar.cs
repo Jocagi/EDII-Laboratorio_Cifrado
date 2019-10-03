@@ -41,6 +41,7 @@ namespace Laboratorio_Cifrado.Utilities
             alfabeto.Add('X');
             alfabeto.Add('Y');
             alfabeto.Add('Z');
+            alfabeto.Add(' ');
             #endregion
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
             #region mientras
@@ -57,12 +58,25 @@ namespace Laboratorio_Cifrado.Utilities
             // var dic = result.Zip(alfabeto, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
             //List<char> alfabeto = new List<char>();
             //alfabeto.Add('A');
+            string clave = llave.ToUpper();
             List<char> ListaFinal = new List<char>();
-            List<char> ListaClave = llave.ToList();
-            List<char> Repetidos = ListaClave.Where(i => alfabeto.Contains(i)).ToList();
-            List<char> Diferentes = (ListaClave.AsQueryable().Intersect(alfabeto)).ToList();
+            List<char> ListaClave = clave.ToList();
+            List<char> Diferentes = alfabeto.Except(ListaClave).ToList();
+            List<char> Repetidos = (ListaClave.AsQueryable().Intersect(alfabeto)).ToList();
             ListaFinal = Repetidos.Union(Diferentes).ToList();
             var diccionario = alfabeto.Zip(ListaFinal, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
+            List<char> Cifrado = Data.ToList();
+            var llaves = diccionario.Where(kvp => Cifrado.Any(y => y == kvp.Value))
+                .Select(kvp => new
+                {
+                    k = kvp.Key,
+                });
+            foreach(var key in llaves)
+            {
+                Console.WriteLine(key);
+            }
+
+            Console.ReadKey();
 
         }
 
