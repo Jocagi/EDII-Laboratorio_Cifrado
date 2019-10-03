@@ -42,36 +42,27 @@ namespace Laboratorio_Cifrado.Utilities
             alfabeto.Add('Y');
             alfabeto.Add('Z');
             #endregion
-            int Corrimiento = Convert.ToInt32(llave);
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
-             //List<char> Cifrar = Data.ToList<Char>();
+            #region mientras
+            //List<char> Cifrar = Data.ToList<Char>();
             /* char[] MensajeCifrado = new char[];
              MensajeCifrado = Corrimiento.ToArray();
              MensajeCifrado = alfabeto.ToArray();
              //MensajeCifrado = Data.ToCharArray();
-             List<char> Lista = MensajeCifrado.Cast<char>().ToList();
-             List<char> result = alfabeto.Except(Lista).ToList();
-             var dic = result.Zip(alfabeto, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);*/
-            int i, j;
-            char[] MensajeCifrado = new char[Data.Length];
-            MensajeCifrado = Data.ToCharArray();
+             #
+             List<char> Lista = MensajeCifrado.Cast<char>().ToList(); 
+             List<char> result = alfabeto.Except(Lista).ToList();*/
+            #endregion
 
-            for(i=0; i<MensajeCifrado.Length; i++)
-            {
-                for(j=0; j<Corrimiento; j++)
-                {
-                    if ((MensajeCifrado[i] >= 65 && MensajeCifrado[i] < 90 || (MensajeCifrado[i] >= 97 && MensajeCifrado[i] < 122)))
-                        {
-                        MensajeCifrado[i]++;
-                    }
-                    else if (MensajeCifrado[i] == 90)
-                        MensajeCifrado[i] = 'A';
-                    else if (MensajeCifrado[i] == 122)
-                        MensajeCifrado[i] = 'a';
-                }
-            }
-            List<char> Lista = MensajeCifrado.Cast<char>().ToList();
-            Data = Lista.ToString();
+            // var dic = result.Zip(alfabeto, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
+            //List<char> alfabeto = new List<char>();
+            //alfabeto.Add('A');
+            List<char> ListaFinal = new List<char>();
+            List<char> ListaClave = llave.ToList();
+            List<char> Repetidos = ListaClave.Where(i => alfabeto.Contains(i)).ToList();
+            List<char> Diferentes = (ListaClave.AsQueryable().Intersect(alfabeto)).ToList();
+            ListaFinal = Repetidos.Union(Diferentes).ToList();
+            var diccionario = alfabeto.Zip(ListaFinal, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
 
         }
 
