@@ -15,12 +15,66 @@ namespace Laboratorio_Cifrado.Controllers
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
         public static string mensaje = "";
         public static string currentFile = "";
+
         // GET: Cifrado
         public ActionResult Index()
         {
             return View();
         }
-        #region down
+        [HttpPost]
+        public ActionResult Index(HttpPostedFileBase file, string password, string cifrado, string operacion)
+        {
+            string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
+            
+            UploadFile(path, file);
+            
+            //Validar datos de entrada
+            //ToDo...
+
+            switch (operacion)
+            {
+                case "1": //Cifrar
+                    switch (cifrado)
+                    {
+                        case "1": //Cesar
+                            
+                            Cesar.Cifrado(path, password);
+
+                            break;
+                        case "2": //Zig Zag
+
+                            int corrimiento  = Convert.ToInt32(password);
+                            ZigZag.Cifrado(path, corrimiento);
+
+                            break;
+                        case "3": //Espiral
+                            break;
+                    }
+                    break;
+                case "2": //Descifrar
+                    switch (cifrado)
+                    {
+                        case "1": //Cesar
+
+                            //Cesar.Descifrar();
+
+                            break;
+                        case "2": //Zig Zag
+
+                            int corrimiento = Convert.ToInt32(password);
+                            ZigZag.Cifrado(path, corrimiento);
+
+                            break;
+                        case "3": //Espiral
+                            break;
+                    }
+                    break;
+            }
+            
+            return View();
+        }
+        
+        #region download
         public ActionResult DownloadFile()
         {
             string path = currentFile;
@@ -41,69 +95,7 @@ namespace Laboratorio_Cifrado.Controllers
         }
         #endregion
 
-
-        #region ZigZag
-
-        public ActionResult CifrarZigZag()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CifrarZigZag(HttpPostedFileBase file, string niveles)
-        {
-            try
-            {
-                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
-                //string path = directorioUploads;
-                int corrimiento = Convert.ToInt32(niveles);
-
-                UploadFile(path, file);
-                ZigZag.Cifrado(path, corrimiento);
-                
-                
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "ERROR:" + ex.Message;
-                throw;
-            }       
-
-            return RedirectToAction("CifrarZigZag");
-        }
-
-        #region descifrar zigzag
-
-        public ActionResult DescifrarZigZag()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult DescifrarZigZag(HttpPostedFileBase file, string niveles)
-        {
-            try
-            {
-                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
-                //string path = directorioUploads;
-                int corrimiento = Convert.ToInt32(niveles);
-
-                UploadFile(path, file);
-                ZigZag.Descifrar(path, corrimiento);
-
-
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "ERROR:" + ex.Message;
-                throw;
-            }
-
-            return RedirectToAction("DescifrarZigZag");
-        }
-        #endregion
-
-        #endregion
+        
         #region Archivo
         public void UploadFile(string path, HttpPostedFileBase file)
         {
