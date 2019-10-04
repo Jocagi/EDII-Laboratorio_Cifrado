@@ -12,7 +12,7 @@ namespace Laboratorio_Cifrado.Controllers
 {
     public class CifradoController : Controller
     {
-        public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
+        public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads/");
         public static string currentFile = "";
 
         public ActionResult Index()
@@ -103,8 +103,7 @@ namespace Laboratorio_Cifrado.Controllers
             if (!String.IsNullOrEmpty(path))
             {
                 byte[] filedata = System.IO.File.ReadAllBytes(path);
-                string contentType = MimeMapping.GetMimeMapping(path);
-
+                
                 var cd = new System.Net.Mime.ContentDisposition
                 {
                     FileName = Path.GetFileName(path),
@@ -114,8 +113,7 @@ namespace Laboratorio_Cifrado.Controllers
                 currentFile = "";
 
                 Response.AppendHeader("Content-Disposition", cd.ToString());
-                return File(filedata, contentType);
-
+                return File(filedata, "application/force-download");
             }
             else
             {

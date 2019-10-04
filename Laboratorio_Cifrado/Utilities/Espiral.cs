@@ -48,10 +48,10 @@ namespace Laboratorio_Cifrado.Utilities
 
             #region Llenado
 
-            for (int k = 0; k < n; k++)
+            for (int k = 0; k < m; k++)
             {
 
-                for (int l = 0; l < m; l++)
+                for (int l = 0; l < n; l++)
                 {
                     if (!String.IsNullOrEmpty(texto))
                     {
@@ -183,16 +183,15 @@ namespace Laboratorio_Cifrado.Utilities
             }
             #endregion
 
-            //Lectur final
+            //Lectura final
 
             #region Matriz
 
-            for (int k = 0; k < n; k++)
+            for (int k = 0; k < m; k++)
             {
-
-                for (int l = 0; l < m; l++)
+                for (int l = 0; l < n; l++)
                 {
-                    if( matriz[l, k] != EOF)
+                    if( matriz[l, k] != EOF) 
                     {
                         respuesta += matriz[l, k];
                     }
