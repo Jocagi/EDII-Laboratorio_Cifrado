@@ -13,10 +13,8 @@ namespace Laboratorio_Cifrado.Controllers
     public class CifradoController : Controller
     {
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads");
-        public static string mensaje = "";
         public static string currentFile = "";
 
-        // GET: Cifrado
         public ActionResult Index()
         {
             return View();
@@ -24,79 +22,110 @@ namespace Laboratorio_Cifrado.Controllers
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase file, string password, string cifrado, string operacion)
         {
-            string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName));
-            
-            UploadFile(path, file);
-            
             //Validar datos de entrada
             //ToDo...
 
-            switch (operacion)
+            //Subir Archivo
+            if (file != null)
             {
-                case "1": //Cifrar
-                    switch (cifrado)
-                    {
-                        case "1": //Cesar
-                            
-                            Cesar.Cifrado(path, password);
-
-                            break;
-                        case "2": //Zig Zag
-
-                            int corrimiento  = Convert.ToInt32(password);
-                            ZigZag.Cifrado(path, corrimiento);
-
-                            break;
-                        case "3": //Espiral
-                            break;
-                    }
-                    break;
-                case "2": //Descifrar
-                    switch (cifrado)
-                    {
-                        case "1": //Cesar
-
-                            //Cesar.Descifrar();
-
-                            break;
-                        case "2": //Zig Zag
-
-                            int corrimiento = Convert.ToInt32(password);
-                            ZigZag.Cifrado(path, corrimiento);
-
-                            break;
-                        case "3": //Espiral
-                            break;
-                    }
-                    break;
-            }
+                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName) ?? "");
+                UploadFile(path, file);
             
+
+                switch (operacion)
+                {
+                    case "1": //Cifrar
+                        switch (cifrado)
+                        {
+                            case "1": //Cesar
+                            
+                                Cesar.Cifrado(path, password);
+
+                                break;
+                            case "2": //Zig Zag
+
+                                int corrimiento  = Convert.ToInt32(password);
+                                ZigZag.Cifrado(path, corrimiento);
+
+                                break;
+                            case "3": //Espiral
+
+                                int clave = Convert.ToInt32(password);
+                                Espiral.Cifrar(path, clave);
+
+                                break;
+                        }
+                        break;
+                    case "2": //Descifrar
+                        switch (cifrado)
+                        {
+                            case "1": //Cesar
+
+                                //Cesar.Descifrar();
+
+                                break;
+                            case "2": //Zig Zag
+
+                                int corrimiento = Convert.ToInt32(password);
+                                ZigZag.Descifrar(path, corrimiento);
+
+                                break;
+                            case "3": //Espiral
+
+                                int clave = Convert.ToInt32(password);
+                                Espiral.Descifrar(path, clave);
+
+                                break;
+                        }
+                        break;
+                }
+
+                return RedirectToAction("Download");
+            }
+            else
+            {
+                ViewBag.Message = "No ha especificado un archivo.";
+            }
+
             return View();
         }
-        
+
+        public ActionResult Download()
+        {
+            return View();
+        }
+
         #region download
         public ActionResult DownloadFile()
         {
             string path = currentFile;
 
-            byte[] filedata = System.IO.File.ReadAllBytes(path);
-            string contentType = MimeMapping.GetMimeMapping(path);
-
-            var cd = new System.Net.Mime.ContentDisposition
+            if (!String.IsNullOrEmpty(path))
             {
-                FileName = Path.GetFileName(path),
-                Inline = true,
-            };
+                byte[] filedata = System.IO.File.ReadAllBytes(path);
+                string contentType = MimeMapping.GetMimeMapping(path);
 
-            currentFile = "";
+                var cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = Path.GetFileName(path),
+                    Inline = true,
+                };
 
-            Response.AppendHeader("Content-Disposition", cd.ToString());
-            return File(filedata, contentType);
+                currentFile = "";
+
+                Response.AppendHeader("Content-Disposition", cd.ToString());
+                return File(filedata, contentType);
+
+            }
+            else
+            {
+                ViewBag.Message = "No existe el archivo";
+                return RedirectToAction("Download");
+            }
         }
         #endregion
-
         
-        #region Archivo
+        #region upload
         public void UploadFile(string path, HttpPostedFileBase file)
         {
             //Subir archivos al servidor
