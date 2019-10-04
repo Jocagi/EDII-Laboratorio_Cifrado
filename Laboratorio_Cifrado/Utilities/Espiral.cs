@@ -104,6 +104,7 @@ namespace Laboratorio_Cifrado.Utilities
             #endregion
 
             File.WriteAllText(rutaCifrado, respuesta);
+            CifradoController.currentFile = rutaCifrado;
         }
 
 

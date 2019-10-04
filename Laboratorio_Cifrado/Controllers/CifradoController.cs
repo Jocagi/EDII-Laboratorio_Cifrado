@@ -79,6 +79,8 @@ namespace Laboratorio_Cifrado.Controllers
                         }
                         break;
                 }
+
+                return RedirectToAction("Download");
             }
             else
             {
@@ -87,25 +89,39 @@ namespace Laboratorio_Cifrado.Controllers
 
             return View();
         }
-        
+
+        public ActionResult Download()
+        {
+            return View();
+        }
+
         #region download
         public ActionResult DownloadFile()
         {
             string path = currentFile;
 
-            byte[] filedata = System.IO.File.ReadAllBytes(path);
-            string contentType = MimeMapping.GetMimeMapping(path);
-
-            var cd = new System.Net.Mime.ContentDisposition
+            if (!String.IsNullOrEmpty(path))
             {
-                FileName = Path.GetFileName(path),
-                Inline = true,
-            };
+                byte[] filedata = System.IO.File.ReadAllBytes(path);
+                string contentType = MimeMapping.GetMimeMapping(path);
 
-            currentFile = "";
+                var cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = Path.GetFileName(path),
+                    Inline = true,
+                };
 
-            Response.AppendHeader("Content-Disposition", cd.ToString());
-            return File(filedata, contentType);
+                currentFile = "";
+
+                Response.AppendHeader("Content-Disposition", cd.ToString());
+                return File(filedata, contentType);
+
+            }
+            else
+            {
+                ViewBag.Message = "No existe el archivo";
+                return RedirectToAction("Download");
+            }
         }
         #endregion
         

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Download";
+}
+
+<div class="jumbotron">
+    <h3>Laboratorio No. 2</h3>
+</div>
+
+Presione el siguinete botón para descargar su archivo: <br><br>
+<div>
+    <input type = "button" value = "Download"
+           onclick = "location.href = '@Url.Action("DownloadFile", "Cifrado")'" %>
+</div>
+
+@ViewBag.Message
