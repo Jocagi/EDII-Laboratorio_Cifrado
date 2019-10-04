@@ -43,6 +43,9 @@ namespace Laboratorio_Cifrado.Utilities
             alfabeto.Add('Z');
             alfabeto.Add(' ');
             #endregion
+
+            int Corrimiento = Convert.ToInt32(llave);
+
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
 
             string clave = llave.ToUpper();
