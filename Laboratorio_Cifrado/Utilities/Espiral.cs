@@ -111,6 +111,100 @@ namespace Laboratorio_Cifrado.Utilities
         public static void Descifrar(string path, int password)
         {
 
+            #region Crear_Archivo
+
+            string NuevoArchivo = Path.GetFileName(path);
+            string rutaDescifrado = CifradoController.directorioUploads + NuevoArchivo;
+            Archivo.crearArchivo(rutaDescifrado);
+
+            #endregion
+
+            #region Variables
+
+            FileInfo file = new FileInfo(path);
+            string texto = File.ReadAllText(path);
+
+            int m = password;
+            int n = (int)Math.Ceiling((double)(file.Length / m));
+
+            char[,] matriz = new char[n, m];
+            string respuesta = "";
+
+            int inicio = 0;
+            int limitefila = n;
+            int limitecolumna = m;
+
+            int valores = 1; //valores dentro de la matriz
+
+            int i = 0, j = 0;
+
+            #endregion
+            
+            //Escritura Espiral
+
+            #region Espiral
+
+            while (valores <= matriz.Length)
+            {
+
+                for (j = inicio; j < limitecolumna; j++)
+                {
+                    matriz[i, j] = Convert.ToChar(texto.Substring(0, 1));
+                    texto = texto.Remove(0, 1);
+                    
+                    valores++;
+                }
+                for (i = inicio + 1; i < limitefila; i++)
+                {
+                    matriz[i, j-1] = Convert.ToChar(texto.Substring(0, 1));
+                    texto = texto.Remove(0, 1);
+
+
+                    valores++;
+                }
+                for (j = limitecolumna - 1; j > inicio && i > inicio + 1; j--)
+                {
+                    matriz[i-1, j-1] = Convert.ToChar(texto.Substring(0, 1));
+                    texto = texto.Remove(0, 1);
+
+                    valores++;
+                }
+                for (i = limitefila - 1; i > inicio + 1; i--)
+                {
+                    matriz[i-1, j] = Convert.ToChar(texto.Substring(0, 1));
+                    texto = texto.Remove(0, 1);
+
+                    valores++;
+                }
+
+                inicio++;
+                limitecolumna--;
+                limitefila--;
+            }
+            #endregion
+
+            //Lectur final
+
+            #region Matriz
+
+            for (int k = 0; k < n; k++)
+            {
+
+                for (int l = 0; l < m; l++)
+                {
+                    if( matriz[l, k] != EOF)
+                    {
+                        respuesta += matriz[l, k];
+                    }
+                }
+            }
+
+
+            #endregion
+
+
+            File.WriteAllText(rutaDescifrado, respuesta);
+            CifradoController.currentFile = rutaDescifrado;
         }
     }
 }
