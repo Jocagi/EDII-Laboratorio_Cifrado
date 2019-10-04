@@ -71,18 +71,11 @@ namespace Laboratorio_Cifrado.Utilities
             {
                 if(diccionario.ContainsKey(item))
                 {
-                    CifradoFinal.Add('k');
+                    CifradoFinal.Add(diccionario[item]);
                 }
             }
-          /*  var llaves = diccionario.Where(kvp => Cifrado.Any(y => y == kvp.Value))
-                .Select(kvp => new
-                {
-                    k = kvp.Key,
-                });
-            foreach(var key in llaves)
-            {
-                Console.WriteLine(key);
-            }*/
+
+            Console.WriteLine(CifradoFinal);
 
             Console.ReadKey();
 
