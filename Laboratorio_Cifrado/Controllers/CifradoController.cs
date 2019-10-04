@@ -62,7 +62,7 @@ namespace Laboratorio_Cifrado.Controllers
                         case "2": //Zig Zag
 
                             int corrimiento = Convert.ToInt32(password);
-                            ZigZag.Cifrado(path, corrimiento);
+                            ZigZag.Descifrar(path, corrimiento);
 
                             break;
                         case "3": //Espiral
