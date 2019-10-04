@@ -61,7 +61,7 @@ namespace Laboratorio_Cifrado.Controllers
                         {
                             case "1": //Cesar
 
-                                //Cesar.Descifrar();
+                                Cesar.Descifrar(path, password);
 
                                 break;
                             case "2": //Zig Zag
