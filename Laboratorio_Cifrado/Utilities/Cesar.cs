@@ -42,6 +42,7 @@ namespace Laboratorio_Cifrado.Utilities
             alfabeto.Add('Y');
             alfabeto.Add('Z');
             #endregion
+
             int Corrimiento = Convert.ToInt32(llave);
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
              //List<char> Cifrar = Data.ToList<Char>();
