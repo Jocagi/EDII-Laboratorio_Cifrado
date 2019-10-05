@@ -7,13 +7,23 @@ using System.IO;
 using System.Text;
 using Laboratorio_Cifrado.Controllers;
 using Laboratorio_Cifrado.Models;
+using Laboratorio_Cifrado.Utilities;
 
 namespace Laboratorio_Cifrado.Utilities
 {
     public class Cesar
     {
+        private const int bufferLength = 1024;
         public static void Cifrado(string path, string llave)
         {
+            #region Crear_Archivo
+
+            string NuevoArchivo = Path.GetFileName(path);
+            string Cifradoo = CifradoController.directorioUploads + NuevoArchivo;
+            Archivo.crearArchivo(Cifradoo);
+
+            #endregion
+             
             #region Alfabeto Mayusculas
             List<char> AlfabetoM = new List<char>();
             AlfabetoM.Add('A');
@@ -76,20 +86,15 @@ namespace Laboratorio_Cifrado.Utilities
             #endregion
 
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
-            #region Crear_Archivo
 
-            string NuevoArchivo = Path.GetFileName(path);
-            string Cifradoo = CifradoController.directorioUploads + NuevoArchivo;
-            Archivo.crearArchivo(Cifradoo);
-
-            #endregion
-
+            #region Listas
             string clave = llave.ToUpper();
-            string claveM = llave;
+            string claveM = llave.ToLower();
             List<char> ListaFinal = new List<char>(); //Lista que sera el abecedario modificado
             List<char> ListaFinal2 = new List<char>();
             List<char> ListaClave = clave.ToList();
             List<char> ListaClave2 = claveM.ToList();
+            #endregion
             #region Diccionario Mayusculas
             List<char> Diferentes = AlfabetoM.Except(ListaClave).ToList();
             List<char> Repetidos = (ListaClave.AsQueryable().Intersect(AlfabetoM)).ToList(); //Expresion Lamba para encontrar repetidos
@@ -106,21 +111,29 @@ namespace Laboratorio_Cifrado.Utilities
             List<char> Cifrado = Data.ToList();
             List<char> CifradoFinal = new List<char>();
 
-            foreach (var item in Data)
+            foreach (var item in Cifrado)
             {
                 if (DiccionarioM.ContainsKey(item))
                 {
                     // CifradoFinal.Add(diccionario[item]);
                     CifradoFinal.Add(DiccionarioM[item]);
                 }
-                else
+                else if (DiccionarioP.ContainsKey(item))
                 {
                     CifradoFinal.Add(DiccionarioP[item]);
                 }
+                else
+                {
+                    CifradoFinal.Add(item);
+                }
             }
 
-            string CifradoCompleto = CifradoFinal.ToString();
-            Console.ReadKey();
+            string CifradoCompleto = "";
+
+            foreach (var item in CifradoFinal)
+            {
+                CifradoCompleto += item;
+            }
 
 
             File.WriteAllText(Cifradoo, CifradoCompleto);
@@ -199,13 +212,14 @@ namespace Laboratorio_Cifrado.Utilities
             Archivo.crearArchivo(Descifradoo);
 
             #endregion
-
+            #region Listas
             string clave = llave.ToUpper();
-            string claveM = llave;
+            string claveM = llave.ToLower();
             List<char> ListaFinal = new List<char>(); //Lista que sera el abecedario modificado
             List<char> ListaFinal2 = new List<char>();
             List<char> ListaClave = clave.ToList();
             List<char> ListaClave2 = claveM.ToList();
+            #endregion
             #region Diccionario Mayusculas
             List<char> Diferentes = AlfabetoM.Except(ListaClave).ToList();
             List<char> Repetidos = (ListaClave.AsQueryable().Intersect(AlfabetoM)).ToList(); //Expresion Lamba para encontrar repetidos
@@ -229,14 +243,25 @@ namespace Laboratorio_Cifrado.Utilities
                     // CifradoFinal.Add(diccionario[item]);
                     DescifradoFinal.Add(DiccionarioM[item]);
                 }
-                else
+                else if(DiccionarioP.ContainsKey(item))
                 {
                     DescifradoFinal.Add(DiccionarioP[item]);
                 }
+                else
+                {
+                    DescifradoFinal.Add(item);
+                }
             }
 
-            string DescifradoCompleto = DescifradoFinal.ToString();
-            Console.ReadKey();
+            //string DescifradoCompleto = DescifradoFinal.ToString();
+
+            string DescifradoCompleto = "";
+
+            foreach (var item in DescifradoFinal)
+            {
+                DescifradoCompleto += item;
+            }
+
             File.WriteAllText(Descifradoo, DescifradoCompleto);
             CifradoController.currentFile =Descifradoo; //Aqui no se que movi, pero no tocar!
 
