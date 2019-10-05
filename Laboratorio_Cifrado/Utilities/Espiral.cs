@@ -18,18 +18,23 @@ namespace Laboratorio_Cifrado.Utilities
             #region Crear_Archivo
 
             string NuevoArchivo = Path.GetFileName(path);
-            string rutaCifrado = CifradoController.directorioUploads + NuevoArchivo;
+            string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             
             #endregion
 
             #region Variables
 
-            FileInfo file = new FileInfo(path);
+            //FileInfo file = new FileInfo(path);
             string texto = File.ReadAllText(path);
+            int fileLength = texto.Length;
 
             int m = password;
-            int n = (int) Math.Ceiling((double) (file.Length / m));
+            int n = (int) fileLength / m;
+            if (fileLength % m != 0) //Redondear al siguinete entero
+            {
+                n++;
+            }
 
             char[,] matriz = new char[n, m];
             string respuesta = "";
@@ -114,7 +119,7 @@ namespace Laboratorio_Cifrado.Utilities
             #region Crear_Archivo
 
             string NuevoArchivo = Path.GetFileName(path);
-            string rutaDescifrado = CifradoController.directorioUploads + NuevoArchivo;
+            string rutaDescifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaDescifrado);
 
             #endregion
@@ -125,7 +130,11 @@ namespace Laboratorio_Cifrado.Utilities
             string texto = File.ReadAllText(path);
 
             int m = password;
-            int n = (int)Math.Ceiling((double)(file.Length / m));
+            int n = (int) file.Length / m;
+            if (file.Length % m != 0) //Redondear al siguinete entero
+            {
+                n++;
+            }
 
             char[,] matriz = new char[n, m];
             string respuesta = "";
@@ -197,8 +206,7 @@ namespace Laboratorio_Cifrado.Utilities
                     }
                 }
             }
-
-
+            
             #endregion
 
 

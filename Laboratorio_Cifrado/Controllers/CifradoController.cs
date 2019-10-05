@@ -12,6 +12,7 @@ namespace Laboratorio_Cifrado.Controllers
 {
     public class CifradoController : Controller
     {
+        public static string directorioArchivos = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/");
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads/");
         public static string currentFile = "";
 
