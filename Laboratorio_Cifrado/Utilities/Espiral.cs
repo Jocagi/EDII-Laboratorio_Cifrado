@@ -11,7 +11,7 @@ namespace Laboratorio_Cifrado.Utilities
     public class Espiral
     {
         private const char EOF = '\u0003';
-        private const int bufferLength = 1024;
+        private const int bufferLength = 1048576;
 
         public static void Cifrar(string path, int password)
         {
