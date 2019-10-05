@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Laboratorio_Cifrado.Utilities;
 
@@ -24,64 +25,66 @@ namespace Laboratorio_Cifrado.Controllers
         public ActionResult Index(HttpPostedFileBase file, string password, string cifrado, string operacion)
         {
             //Validar datos de entrada
-            //ToDo...
-
-            //Subir Archivo
+            
             if (file != null)
             {
-                string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName) ?? "");
-                UploadFile(path, file);
-            
-
-                switch (operacion)
+                //Subir Archivo
+                if (validarPassword(password, cifrado))
                 {
-                    case "1": //Cifrar
-                        switch (cifrado)
-                        {
-                            case "1": //Cesar
-                            
-                                Cesar.Cifrado(path, password);
+                    string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName) ?? "");
+                    UploadFile(path, file);
 
-                                break;
-                            case "2": //Zig Zag
 
-                                int corrimiento  = Convert.ToInt32(password);
-                                ZigZag.Cifrado(path, corrimiento);
+                    switch (operacion)
+                    {
+                        case "1": //Cifrar
+                            switch (cifrado)
+                            {
+                                case "1": //Cesar
 
-                                break;
-                            case "3": //Espiral
+                                    Cesar.Cifrado(path, password);
 
-                                int clave = Convert.ToInt32(password);
-                                Espiral.Cifrar(path, clave);
+                                    break;
+                                case "2": //Zig Zag
 
-                                break;
-                        }
-                        break;
-                    case "2": //Descifrar
-                        switch (cifrado)
-                        {
-                            case "1": //Cesar
+                                    int corrimiento = Convert.ToInt32(password);
+                                    ZigZag.Cifrado(path, corrimiento);
 
-                                //Cesar.Descifrar();
+                                    break;
+                                case "3": //Espiral
 
-                                break;
-                            case "2": //Zig Zag
+                                    int clave = Convert.ToInt32(password);
+                                    Espiral.Cifrar(path, clave);
 
-                                int corrimiento = Convert.ToInt32(password);
-                                ZigZag.Descifrar(path, corrimiento);
+                                    break;
+                            }
+                            break;
+                        case "2": //Descifrar
+                            switch (cifrado)
+                            {
+                                case "1": //Cesar
 
-                                break;
-                            case "3": //Espiral
+                                    //Cesar.Descifrar();
 
-                                int clave = Convert.ToInt32(password);
-                                Espiral.Descifrar(path, clave);
+                                    break;
+                                case "2": //Zig Zag
 
-                                break;
-                        }
-                        break;
+                                    int corrimiento = Convert.ToInt32(password);
+                                    ZigZag.Descifrar(path, corrimiento);
+
+                                    break;
+                                case "3": //Espiral
+
+                                    int clave = Convert.ToInt32(password);
+                                    Espiral.Descifrar(path, clave);
+
+                                    break;
+                            }
+                            break;
+                    }
+
+                    return RedirectToAction("Download");
                 }
-
-                return RedirectToAction("Download");
             }
             else
             {
@@ -150,6 +153,85 @@ namespace Laboratorio_Cifrado.Controllers
                 ViewBag.Message = "No ha especificado un archivo.";
             }
         }
+        #endregion
+
+        #region Contraseña
+
+        private bool validarPassword(string password, string cifrado)
+        {
+            bool resultado = false;
+
+            int i;
+            switch (cifrado)
+            {
+                case "1": //Cesar
+
+                    if (password.All(char.IsLetter))
+                    {
+                        if (password.Distinct().Count() == password.Length)
+                        {
+                            resultado = true;
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se puede usar esa clave, porfavor elige una palabra con letras diferentes.";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No se puede usar esa clave, porfavor escribe una palabra";
+                    }
+                    
+
+                    break;
+                case "2": //Zig Zag
+
+                    if (int.TryParse(password, out i))
+                    {
+                        if (i < 10000 && i > 0)
+                        {
+                            resultado = true;
+                        }
+                        else
+                        {
+                            ViewBag.Message = "La contraseña está fuera del rango";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "La contraseña debe consistir de números";
+                    }
+                    
+                    break;
+                case "3": //Espiral
+
+                    if (int.TryParse(password, out i))
+                    {
+                        if (i < 10000 && i > 0)
+                        {
+                            resultado = true;
+                        }
+                        else
+                        {
+                            ViewBag.Message = "La contraseña está fuera del rango";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "La contraseña debe consistir de números";
+                    }
+
+                    break;
+            }
+
+            if (resultado == false)
+            {
+                ViewBag.Message = "No se puede usar esa clave, porfavor elige otra.";
+            }
+
+            return resultado;
+        }
+        
         #endregion
     }
 }
