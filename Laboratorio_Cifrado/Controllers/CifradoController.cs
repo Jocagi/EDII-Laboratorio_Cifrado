@@ -223,12 +223,7 @@ namespace Laboratorio_Cifrado.Controllers
 
                     break;
             }
-
-            if (resultado == false)
-            {
-                ViewBag.Message = "No se puede usar esa clave, porfavor elige otra.";
-            }
-
+            
             return resultado;
         }
         
