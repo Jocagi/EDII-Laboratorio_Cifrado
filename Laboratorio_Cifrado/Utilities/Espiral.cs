@@ -49,7 +49,7 @@ namespace Laboratorio_Cifrado.Utilities
                         }
                         char[,] matriz = new char[n, m];
                         List<byte> respuesta = new List<byte>();
-                        
+
                         int inicio = 0;
                         int limitefila = n;
                         int limitecolumna = m;
@@ -92,22 +92,22 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             for (j = inicio; j < limitecolumna; j++)
                             {
-                                respuesta.Add((byte) matriz[i, j]); 
+                                respuesta.Add((byte)matriz[i, j]);
                                 valores++;
                             }
                             for (i = inicio + 1; i < limitefila; i++)
                             {
-                                respuesta.Add((byte) matriz[i, j - 1]);
+                                respuesta.Add((byte)matriz[i, j - 1]);
                                 valores++;
                             }
                             for (j = limitecolumna - 1; j > inicio && i > inicio + 1; j--)
                             {
-                                respuesta.Add((byte) matriz[i - 1, j - 1]);
+                                respuesta.Add((byte)matriz[i - 1, j - 1]);
                                 valores++;
                             }
                             for (i = limitefila - 1; i > inicio + 1; i--)
                             {
-                                respuesta.Add((byte) matriz[i - 1, j]);
+                                respuesta.Add((byte)matriz[i - 1, j]);
                                 valores++;
                             }
 
@@ -122,13 +122,13 @@ namespace Laboratorio_Cifrado.Utilities
                     }
                 }
             }
-            
+
             CifradoController.currentFile = rutaCifrado;
         }
 
         public static void Descifrar(string path, int password)
         {
-            
+
             #region Crear_Archivo
 
             string NuevoArchivo = Path.GetFileName(path);
@@ -144,7 +144,7 @@ namespace Laboratorio_Cifrado.Utilities
                     //Buffer para descifrar
                     while (reader.BaseStream.Position != reader.BaseStream.Length)
                     {
-                        
+
                         #region Variables
 
                         int bufferPosition = 0;
@@ -156,11 +156,11 @@ namespace Laboratorio_Cifrado.Utilities
                         if (fileLength % m != 0) { n++; }//Redondear al siguinete entero
 
                         //Corregir error
-                        while (fileLength < (n*m))
+                        while (fileLength < (n * m))
                         {
                             fileLength++;
                         }
-                        
+
                         var buffer = reader.ReadBytes(count: fileLength);
 
                         char[,] matriz = new char[n, m];
@@ -169,7 +169,7 @@ namespace Laboratorio_Cifrado.Utilities
                         int inicio = 0;
                         int limitefila = n;
                         int limitecolumna = m;
-                        
+
                         int i = 0, j = 0;
 
                         FileStream fs = new FileStream(rutaDescifrado, FileMode.Append);
@@ -186,7 +186,7 @@ namespace Laboratorio_Cifrado.Utilities
                             {
                                 if (bufferPosition < buffer.Length)
                                 {
-                                    matriz[i, j] = (char) buffer[bufferPosition];
+                                    matriz[i, j] = (char)buffer[bufferPosition];
                                     bufferPosition++;
                                 }
                             }
@@ -194,7 +194,7 @@ namespace Laboratorio_Cifrado.Utilities
                             {
                                 if (bufferPosition < buffer.Length)
                                 {
-                                    matriz[i, j - 1] = (char) buffer[bufferPosition];
+                                    matriz[i, j - 1] = (char)buffer[bufferPosition];
                                     bufferPosition++;
                                 }
                             }
@@ -202,7 +202,7 @@ namespace Laboratorio_Cifrado.Utilities
                             {
                                 if (bufferPosition < buffer.Length)
                                 {
-                                    matriz[i - 1, j - 1] = (char) buffer[bufferPosition];
+                                    matriz[i - 1, j - 1] = (char)buffer[bufferPosition];
                                     bufferPosition++;
                                 }
                             }
@@ -210,7 +210,7 @@ namespace Laboratorio_Cifrado.Utilities
                             {
                                 if (bufferPosition < buffer.Length)
                                 {
-                                    matriz[i - 1, j] = (char) buffer[bufferPosition];
+                                    matriz[i - 1, j] = (char)buffer[bufferPosition];
                                     bufferPosition++;
                                 }
                             }
@@ -229,12 +229,12 @@ namespace Laboratorio_Cifrado.Utilities
                             {
                                 if (matriz[l, k] != EOF && matriz[l, k] != default(char))
                                 {
-                                    respuesta.Add((byte) matriz[l, k]);
+                                    respuesta.Add((byte)matriz[l, k]);
                                 }
                             }
                         }
                         #endregion
-                        
+
                         bw.Write(respuesta.ToArray());
                         bw.Close();
                     }
