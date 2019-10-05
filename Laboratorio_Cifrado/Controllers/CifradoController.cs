@@ -114,7 +114,7 @@ namespace Laboratorio_Cifrado.Controllers
                 currentFile = "";
 
                 Response.AppendHeader("Content-Disposition", cd.ToString());
-                return File(filedata, contentType);
+                return File(filedata, "application/force-download");
 
             }
             else
