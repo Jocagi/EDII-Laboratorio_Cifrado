@@ -28,7 +28,7 @@ namespace Laboratorio_Cifrado.Utilities
             var lineas = new List<StringBuilder>();
             int niveles = corrimiento;
 
-            for( int i = 0; i<corrimiento; i++)
+            for (int i = 0; i < corrimiento; i++)
             {
                 lineas.Add(new StringBuilder());
             }
@@ -37,7 +37,7 @@ namespace Laboratorio_Cifrado.Utilities
 
             //For para saber donde empezamos
 
-            for(int i = 0; i<mensaje.Length; i++)
+            for (int i = 0; i < mensaje.Length; i++)
             {
                 lineas[ActualL].Append(mensaje[i]);
 
@@ -90,7 +90,7 @@ namespace Laboratorio_Cifrado.Utilities
             int Direccion = 1;
 
             //Donde inicia
-            for(int i =0; i<mensaje.Length; i++)
+            for (int i = 0; i < mensaje.Length; i++)
             {
                 LineaI[ActualL]++;
 
@@ -104,9 +104,9 @@ namespace Laboratorio_Cifrado.Utilities
 
             int ActualPosicion = 0;
 
-            for(int j = 0; j<corrimiento; j++)
+            for (int j = 0; j < corrimiento; j++)
             {
-                for(int c = 0; c<LineaI[j]; c++)
+                for (int c = 0; c < LineaI[j]; c++)
                 {
                     lineas[j].Append(mensaje[ActualPosicion]);
                     ActualPosicion++;
@@ -121,7 +121,7 @@ namespace Laboratorio_Cifrado.Utilities
             int[] LP = Enumerable.Repeat(0, corrimiento).ToArray();
 
             //Une el nuevo orden de las letras
-            for(int i = 0; i<mensaje.Length; i++)
+            for (int i = 0; i < mensaje.Length; i++)
             {
                 descifrado.Append(lineas[ActualL][LP[ActualL]]);
                 LP[ActualL]++;
