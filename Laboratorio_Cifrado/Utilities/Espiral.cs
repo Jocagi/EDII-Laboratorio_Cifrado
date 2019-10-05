@@ -36,12 +36,17 @@ namespace Laboratorio_Cifrado.Utilities
 
                         int bufferPosition = 0;
 
-                        int fileLength = buffer.Length;
+                        int fileLength = bufferLength;
 
                         int m = password;
                         int n = (int)fileLength / m;
                         if (fileLength % m != 0) { n++; }//Redondear al siguinete entero
 
+                        //Corregir error
+                        while (fileLength < (n * m))
+                        {
+                            fileLength++;
+                        }
                         char[,] matriz = new char[n, m];
                         List<byte> respuesta = new List<byte>();
                         
@@ -85,7 +90,6 @@ namespace Laboratorio_Cifrado.Utilities
 
                         while (valores <= matriz.Length)
                         {
-
                             for (j = inicio; j < limitecolumna; j++)
                             {
                                 respuesta.Add((byte) matriz[i, j]); 
@@ -165,9 +169,7 @@ namespace Laboratorio_Cifrado.Utilities
                         int inicio = 0;
                         int limitefila = n;
                         int limitecolumna = m;
-
-                        int valores = 1; //valores dentro de la matriz
-
+                        
                         int i = 0, j = 0;
 
                         FileStream fs = new FileStream(rutaDescifrado, FileMode.Append);
@@ -186,7 +188,6 @@ namespace Laboratorio_Cifrado.Utilities
                                 {
                                     matriz[i, j] = (char) buffer[bufferPosition];
                                     bufferPosition++;
-                                    valores++;
                                 }
                             }
                             for (i = inicio + 1; i < limitefila; i++)
@@ -195,7 +196,6 @@ namespace Laboratorio_Cifrado.Utilities
                                 {
                                     matriz[i, j - 1] = (char) buffer[bufferPosition];
                                     bufferPosition++;
-                                    valores++;
                                 }
                             }
                             for (j = limitecolumna - 1; j > inicio && i > inicio + 1; j--)
@@ -204,7 +204,6 @@ namespace Laboratorio_Cifrado.Utilities
                                 {
                                     matriz[i - 1, j - 1] = (char) buffer[bufferPosition];
                                     bufferPosition++;
-                                    valores++;
                                 }
                             }
                             for (i = limitefila - 1; i > inicio + 1; i--)
@@ -213,7 +212,6 @@ namespace Laboratorio_Cifrado.Utilities
                                 {
                                     matriz[i - 1, j] = (char) buffer[bufferPosition];
                                     bufferPosition++;
-                                    valores++;
                                 }
                             }
 
