@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
-using Laboratorio_Cifrado.Models;
 using Laboratorio_Cifrado.Controllers;
 
 namespace Laboratorio_Cifrado.Utilities
@@ -15,16 +13,18 @@ namespace Laboratorio_Cifrado.Utilities
         public static void Cifrado(string path, int corrimiento)
         {
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
+           // List<char> Cifrar = Data.ToList<Char>();
 
-            #region Crear_Archivo
-
-            string NuevoArchivo = Path.GetFileName(path);
-            string Cifrado = CifradoController.directorioUploads + NuevoArchivo;
-            Archivo.crearArchivo(Cifrado);
-
-            #endregion
+            //Obtener todos los caracteres posibles
+            Dictionary<string, int> diccionario = new Dictionary<string, int>();
+            for (int i = 0; i < 256; i++)
+            {
+                diccionario.Add(((char)i).ToString(), i);
+            }
 
             string mensaje = Data;
+            //Quitar caracteres en espacios
+            //mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
             var lineas = new List<StringBuilder>();
             int niveles = corrimiento;
 
@@ -55,26 +55,16 @@ namespace Laboratorio_Cifrado.Utilities
             for (int i = 0; i < corrimiento; i++)
                 CifradoFinal.Append(lineas[i].ToString());
 
-            string Cifrados = CifradoFinal.ToString();
-
-            File.WriteAllText(Cifrado, Cifrados);
-            CifradoController.currentFile = Cifrado; //Aqui no se que movi, pero no tocar!
+            string MensCifrado = CifradoFinal.ToString();
 
         }
 
         public static void Descifrar(string path, int corrimiento)
         {
 
-            #region Crear_Archivo
-
-            string NuevoArchivo = Path.GetFileName(path);
-            string Descifrado = CifradoController.directorioUploads + NuevoArchivo;
-            Archivo.crearArchivo(Descifrado);
-
-            #endregion
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
             string mensaje = Data;
-            //mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
+           // mensaje = Regex.Replace(mensaje, @"[^A-Z0-9]", string.Empty);
             var lineas = new List<StringBuilder>();
             int niveles = corrimiento;
 
@@ -135,9 +125,6 @@ namespace Laboratorio_Cifrado.Utilities
             }
 
             string DescifradoF = descifrado.ToString();
-
-            File.WriteAllText(Descifrado, DescifradoF);
-            CifradoController.currentFile = Descifrado; //Aqui no se que movi, pero no tocar!
 
         }
     }

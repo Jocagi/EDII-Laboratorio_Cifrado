@@ -17,6 +17,7 @@ namespace Laboratorio_Cifrado.Utilities
 
         public static void Cifrado(string path, string llave)
         {
+
             #region Crear_Archivo
 
             string NuevoArchivo = Path.GetFileName(path);
@@ -55,45 +56,16 @@ namespace Laboratorio_Cifrado.Utilities
             AlfabetoM.Add('Z');
             AlfabetoM.Add(' ');
             #endregion
-            #region Alfabeto Minusculas
-            List<char> AlfabetoP = new List<char>();
-            AlfabetoP.Add('a');
-            AlfabetoP.Add('b');
-            AlfabetoP.Add('c');
-            AlfabetoP.Add('d');
-            AlfabetoP.Add('e');
-            AlfabetoP.Add('f');
-            AlfabetoP.Add('g');
-            AlfabetoP.Add('h');
-            AlfabetoP.Add('i');
-            AlfabetoP.Add('j');
-            AlfabetoP.Add('k');
-            AlfabetoP.Add('l');
-            AlfabetoP.Add('m');
-            AlfabetoP.Add('n');
-            AlfabetoP.Add('o');
-            AlfabetoP.Add('p');
-            AlfabetoP.Add('q');
-            AlfabetoP.Add('r');
-            AlfabetoP.Add('s');
-            AlfabetoP.Add('t');
-            AlfabetoP.Add('u');
-            AlfabetoP.Add('v');
-            AlfabetoP.Add('w');
-            AlfabetoP.Add('x');
-            AlfabetoP.Add('y');
-            AlfabetoP.Add('z');
-            AlfabetoP.Add(' ');
-            #endregion
-
+            
             string Data = System.IO.File.ReadAllText(path, Encoding.Default);
 
             #region Listas
             string clave = llave.ToUpper();
             string claveM = llave.ToLower();
+
             List<char> ListaFinal = new List<char>(); //Lista que sera el abecedario modificado
-            List<char> ListaFinal2 = new List<char>();
             List<char> ListaClave = clave.ToList();
+
             List<char> ListaClave2 = claveM.ToList();
             #endregion
             #region Diccionario Mayusculas
@@ -152,10 +124,9 @@ namespace Laboratorio_Cifrado.Utilities
             }
             
             CifradoController.currentFile = Cifradoo; //Aqui no se que movi, pero no tocar!
-
         }
 
-        public static void Descifrar(string path, string llave)
+        public void Descifrar(string path, string llave)
         {
             
             #region Alfabeto Mayusculas
@@ -229,8 +200,42 @@ namespace Laboratorio_Cifrado.Utilities
             #region Listas
             string clave = llave.ToUpper();
             string claveM = llave.ToLower();
+
+            #region Alfabeto
+            List<char> alfabeto = new List<char>();
+            alfabeto.Add('A');
+            alfabeto.Add('B');
+            alfabeto.Add('C');
+            alfabeto.Add('D');
+            alfabeto.Add('E');
+            alfabeto.Add('F');
+            alfabeto.Add('G');
+            alfabeto.Add('H');
+            alfabeto.Add('I');
+            alfabeto.Add('J');
+            alfabeto.Add('K');
+            alfabeto.Add('L');
+            alfabeto.Add('M');
+            alfabeto.Add('N');
+            alfabeto.Add('O');
+            alfabeto.Add('P');
+            alfabeto.Add('Q');
+            alfabeto.Add('R');
+            alfabeto.Add('S');
+            alfabeto.Add('T');
+            alfabeto.Add('U');
+            alfabeto.Add('V');
+            alfabeto.Add('W');
+            alfabeto.Add('X');
+            alfabeto.Add('Y');
+            alfabeto.Add('Z');
+            alfabeto.Add(' ');
+            #endregion
+            string Data = System.IO.File.ReadAllText(path, Encoding.Default);
+
+            string clave = llave.ToUpper();
+
             List<char> ListaFinal = new List<char>(); //Lista que sera el abecedario modificado
-            List<char> ListaFinal2 = new List<char>();
             List<char> ListaClave = clave.ToList();
             List<char> ListaClave2 = claveM.ToList();
             #endregion
@@ -282,6 +287,8 @@ namespace Laboratorio_Cifrado.Utilities
                 }
             }
             CifradoController.currentFile =Descifradoo; //Aqui no se que movi, pero no tocar!
+
         }
     }
+    
 }
