@@ -47,11 +47,29 @@ namespace Laboratorio_Cifrado.Controllers
                                 int corrimiento  = Convert.ToInt32(password);
                                 ZigZag.Cifrado(path, corrimiento);
 
+<<<<<<< Updated upstream
                                 break;
                             case "3": //Espiral
 
                                 int clave = Convert.ToInt32(password);
                                 Espiral.Cifrar(path, clave);
+=======
+                                    int clave = Convert.ToInt32(password);
+                                    Espiral.Cifrar(path, clave);
+                                    break;
+
+                                case "4": //SDES
+
+                                    //int clave = Convert.ToInt32(password);
+                                    //Espiral.Cifrar(path, clave);
+                                    break;
+                            }
+                            break;
+                        case "2": //Descifrar
+                            switch (cifrado)
+                            {
+                                case "1": //Cesar
+>>>>>>> Stashed changes
 
                                 break;
                         }
