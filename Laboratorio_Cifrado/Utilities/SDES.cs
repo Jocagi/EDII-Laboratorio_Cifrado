@@ -112,14 +112,19 @@ namespace Laboratorio_Cifrado.Utilities
 
         private string getSBoxValue(string input, string[,] sbox)
         {
-            int row = Convert.ToInt32((string.Concat(input[0] + input[3])), 2);
-            int column = Convert.ToInt32((string.Concat(input[1] + input[2])), 2);
+            int row = Convert.ToInt32((Combine(input[0], input[3])), 2);
+            int column = Convert.ToInt32((Combine(input[1], input[2])), 2);
             return sbox[row, column];
         }
 
         private string Combine(string value1, string value2)
         {
             return value1 + value2;
+        }
+
+        private string Combine(char value1, char value2)
+        {
+            return Convert.ToString(value1) + Convert.ToString(value2);
         }
 
         private string[] Divide(string value)
@@ -130,6 +135,13 @@ namespace Laboratorio_Cifrado.Utilities
             output[1] = value.Substring(4, 4);
 
             return output;
+        }
+
+        private string Swap(string value)
+        {
+            string[] values = Divide(value);
+
+            return values[1] + values[0];
         }
 
         private byte ConvertStringToByte(string value)
@@ -212,11 +224,21 @@ namespace Laboratorio_Cifrado.Utilities
                     while (reader.BaseStream.Position != reader.BaseStream.Length)
                     {
                         var buffer = reader.ReadBytes(bufferLength);
+                        List<byte> CompresionBytes = new List<byte>();
 
                         foreach (var item in buffer)
                         {
                             //Comprimir
+
+                            string _byte = ConvertByteToString(item);
+
+                            string result1 = Swap(AlgorithmSDES(_byte, this.K1));
+                            string result2 = Permutate(AlgorithmSDES(result1, K2), this.PIn);
+                            
+                            CompresionBytes.Add(ConvertStringToByte(result2));
                         }
+
+                        WriteToFile(rutaCifrado, CompresionBytes.ToArray());
                     }
                 }
             }
@@ -228,7 +250,7 @@ namespace Laboratorio_Cifrado.Utilities
 
             #region Crear_Archivo
             string NuevoArchivo = Path.GetFileName(path);
-            string rutaCifrado = CifradoController.directorioUploads + NuevoArchivo;
+            string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             #endregion
 
@@ -239,11 +261,21 @@ namespace Laboratorio_Cifrado.Utilities
                     while (reader.BaseStream.Position != reader.BaseStream.Length)
                     {
                         var buffer = reader.ReadBytes(bufferLength);
+                        List<byte> CompresionBytes = new List<byte>();
 
                         foreach (var item in buffer)
                         {
                             //Descomprimir
+
+                            string _byte = ConvertByteToString(item);
+
+                            string result1 = Swap(AlgorithmSDES(_byte, this.K2));
+                            string result2 = Permutate(AlgorithmSDES(result1, K1), this.PIn);
+
+                            CompresionBytes.Add(ConvertStringToByte(result2));
                         }
+
+                        WriteToFile(rutaCifrado, CompresionBytes.ToArray());
                     }
                 }
             }

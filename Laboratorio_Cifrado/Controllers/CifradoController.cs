@@ -90,7 +90,8 @@ namespace Laboratorio_Cifrado.Controllers
                                 case "4": //SDES
 
                                     int passwordSDES = Convert.ToInt32(password);
-                                    Espiral.Descifrar(path, passwordSDES);
+                                    SDES CifradoSdes = new SDES();
+                                    CifradoSdes.Descifrar(path, passwordSDES);
 
                                     break;
                             }
@@ -228,6 +229,26 @@ namespace Laboratorio_Cifrado.Controllers
                         else
                         {
                             ViewBag.Message = "La contraseña está fuera del rango";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "La contraseña debe consistir de números";
+                    }
+
+                    break;
+
+                case "4": //SDES
+
+                    if (int.TryParse(password, out i))
+                    {
+                        if (i < 1024 && i > 0)
+                        {
+                            resultado = true;
+                        }
+                        else
+                        {
+                            ViewBag.Message = "La contraseña debe ser de 10 bits";
                         }
                     }
                     else
