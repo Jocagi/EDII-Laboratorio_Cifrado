@@ -71,7 +71,7 @@ namespace Laboratorio_Cifrado.Utilities
 
         }
 
-        public void Descifrar(string path, string llave)
+        public static void Descifrar(string path, string llave)
         {
             #region Alfabeto
             List<char> alfabeto = new List<char>();

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Laboratorio_Cifrado.Controllers;
+using Laboratorio_Cifrado.Models;
 using Microsoft.Ajax.Utilities;
 
 namespace Laboratorio_Cifrado.Utilities
@@ -10,6 +12,7 @@ namespace Laboratorio_Cifrado.Utilities
     public class SDES
     {
         #region Definitions
+        private const int bufferLength = 1024;
 
         private string K1;
         private string K2;
@@ -119,6 +122,16 @@ namespace Laboratorio_Cifrado.Utilities
             return value1 + value2;
         }
 
+        private string[] Divide(string value)
+        {
+            string[] output = new string[2];
+
+            output[0] = value.Substring(0, 4);
+            output[1] = value.Substring(4, 4);
+
+            return output;
+        }
+
         private byte ConvertStringToByte(string value)
         {
             return Convert.ToByte(Convert.ToInt32(value, 2));
@@ -157,6 +170,83 @@ namespace Laboratorio_Cifrado.Utilities
             this.K2 = Permutate(LS2, P8); //Permutacion 8 -> Segunda llave
         }
 
+        private string AlgorithmSDES(string _byte , string key)
+        {
+            //Permutacion Inicial y division del byte en dos bloques
+            string InitialPermutation = Permutate(_byte, this.PI);
+            string[] Division = Divide(InitialPermutation);
 
+            //Se guardan los bloques para futuras operaciones
+            string Block1 = Division[0];
+            string Block2 = Division[1];
+
+            //Expandir y permitar, Xor con K1, Sboxes, y P4 para el bloque 2
+            string Expansion = Permutate(Block2, EP);
+            string XORkey1 = XOR(Expansion, key);
+            string Sboxes = SBOXES(XORkey1);
+            string _P4 = Permutate(Sboxes, this.P4);
+
+            //XOR con el primer bloque
+            string Xorblock1 = XOR(_P4, Block1);
+
+            //Uniionde resultado con bloque 2
+            string result = Combine(Xorblock1, Block2);
+
+            return result;
+        }
+
+        public void Cifrar(string path, int key)
+        {
+            GenerateKeys(key);
+
+            #region Crear_Archivo
+            string NuevoArchivo = Path.GetFileName(path);
+            string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
+            Archivo.crearArchivo(rutaCifrado);
+            #endregion
+
+            using (var file = new FileStream(path, FileMode.Open))
+            {
+                using (var reader = new BinaryReader(file))
+                {
+                    while (reader.BaseStream.Position != reader.BaseStream.Length)
+                    {
+                        var buffer = reader.ReadBytes(bufferLength);
+
+                        foreach (var item in buffer)
+                        {
+                            //Comprimir
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Descifrar(string path, int key)
+        {
+            GenerateKeys(key);
+
+            #region Crear_Archivo
+            string NuevoArchivo = Path.GetFileName(path);
+            string rutaCifrado = CifradoController.directorioUploads + NuevoArchivo;
+            Archivo.crearArchivo(rutaCifrado);
+            #endregion
+
+            using (var file = new FileStream(path, FileMode.Open))
+            {
+                using (var reader = new BinaryReader(file))
+                {
+                    while (reader.BaseStream.Position != reader.BaseStream.Length)
+                    {
+                        var buffer = reader.ReadBytes(bufferLength);
+
+                        foreach (var item in buffer)
+                        {
+                            //Descomprimir
+                        }
+                    }
+                }
+            }
+        }
     }
 }
