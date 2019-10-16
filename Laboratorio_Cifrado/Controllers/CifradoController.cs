@@ -15,6 +15,7 @@ namespace Laboratorio_Cifrado.Controllers
     {
         public static string directorioArchivos = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/");
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads/");
+
         public static string currentFile = "";
 
         public ActionResult Index()
@@ -25,7 +26,7 @@ namespace Laboratorio_Cifrado.Controllers
         public ActionResult Index(HttpPostedFileBase file, string password, string cifrado, string operacion)
         {
             //Validar datos de entrada
-
+            
             if (file != null)
             {
                 //Subir Archivo
@@ -113,7 +114,7 @@ namespace Laboratorio_Cifrado.Controllers
         {
             return View();
         }
-
+        
         #region download
         public ActionResult DownloadFile()
         {

@@ -18,7 +18,7 @@ namespace Laboratorio_Cifrado.Utilities
             #region Crear_Archivo
 
             string NuevoArchivo = Path.GetFileName(path);
-            string rutaCifrado = CifradoController.directorioUploads + NuevoArchivo;
+            string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             
             #endregion

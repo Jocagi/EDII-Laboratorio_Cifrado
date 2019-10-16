@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Buffer.cs" />
     <Compile Include="Utilities\Cesar.cs" />
     <Compile Include="Utilities\Espiral.cs" />
     <Compile Include="Utilities\SDES.cs" />
