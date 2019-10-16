@@ -17,11 +17,11 @@ namespace Laboratorio_Cifrado.Utilities
         private string K1;
         private string K2;
 
-        private int[] P10 = {2, 4, 1, 6, 3, 9, 0, 8, 7, 5};
-        private int[] P8 = {5, 2, 6, 3, 7, 4, 9, 8};
-        private int[] P4 = {1, 3, 2, 0};
-        private int[] EP = {3, 0, 1, 2, 1, 2, 3, 0};
-        private int[] PI = {1, 5, 2, 0, 3, 7, 4, 6};
+        private int[] P10 = {7,1,4,3,8,2,9,6,5,0};
+        private int[] P8 = {3,9,8,6,0,1,2,7};
+        private int[] P4 = {0,3,2,1};
+        private int[] EP = {1,3,0,2,3,2,0,1};
+        private int[] PI = {0,2,4,6,1,3,5,7};
         private int[] PIn;
 
         #region SBOXES
@@ -68,6 +68,9 @@ namespace Laboratorio_Cifrado.Utilities
 
             return PIn;
         }
+
+        private const int _8bitDivide = 4;
+        private const int _10bitDivide = 5;
 
         private string LeftShift(string value, int n)
         {
@@ -127,19 +130,19 @@ namespace Laboratorio_Cifrado.Utilities
             return Convert.ToString(value1) + Convert.ToString(value2);
         }
 
-        private string[] Divide(string value)
+        private string[] Divide(string value, int lenght)
         {
             string[] output = new string[2];
 
-            output[0] = value.Substring(0, 4);
-            output[1] = value.Substring(4, 4);
+            output[0] = value.Substring(0, lenght);
+            output[1] = value.Substring(lenght, lenght);
 
             return output;
         }
 
         private string Swap(string value)
         {
-            string[] values = Divide(value);
+            string[] values = Divide(value, _8bitDivide);
 
             return values[1] + values[0];
         }
@@ -173,11 +176,13 @@ namespace Laboratorio_Cifrado.Utilities
             string key = ConvertKeyToString(input);
 
             string _P10 = Permutate(key, P10); //Permutacion 10
-            string LS1 = LeftShift(_P10, 1); //Left Shift 1
+            string[] _P10Block = Divide(_P10, _10bitDivide);
 
+            string LS1 = LeftShift(_P10Block[0], 1) + LeftShift(_P10Block[1], 1); //Left Shift 1 a cada mital del P10
             this.K1 = Permutate(LS1, P8); //Permutacion 8 -> Primer llave
 
-            string LS2 = LeftShift(LS1, 2); //Left Shift 2
+            string[] LS1Block = Divide(LS1, _10bitDivide);
+            string LS2 = LeftShift(LS1Block[0], 2) + LeftShift(LS1Block[1], 2); //Left Shift 2
 
             this.K2 = Permutate(LS2, P8); //Permutacion 8 -> Segunda llave
         }
@@ -185,8 +190,8 @@ namespace Laboratorio_Cifrado.Utilities
         private string AlgorithmSDES(string _byte , string key)
         {
             //Permutacion Inicial y division del byte en dos bloques
-            string InitialPermutation = Permutate(_byte, this.PI);
-            string[] Division = Divide(InitialPermutation);
+            string InitialPermutation = _byte;
+            string[] Division = Divide(InitialPermutation, _8bitDivide);
 
             //Se guardan los bloques para futuras operaciones
             string Block1 = Division[0];
@@ -231,14 +236,16 @@ namespace Laboratorio_Cifrado.Utilities
                             //Comprimir
 
                             string _byte = ConvertByteToString(item);
+                            string InitialPermutation = Permutate(_byte, this.PI);
 
-                            string result1 = Swap(AlgorithmSDES(_byte, this.K1));
+                            string result1 = Swap(AlgorithmSDES(InitialPermutation, this.K1));
                             string result2 = Permutate(AlgorithmSDES(result1, K2), this.PIn);
                             
                             CompresionBytes.Add(ConvertStringToByte(result2));
                         }
 
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
+                        CifradoController.currentFile = rutaCifrado;
                     }
                 }
             }
@@ -268,14 +275,16 @@ namespace Laboratorio_Cifrado.Utilities
                             //Descomprimir
 
                             string _byte = ConvertByteToString(item);
+                            string InitialPermutation = Permutate(_byte, this.PI);
 
-                            string result1 = Swap(AlgorithmSDES(_byte, this.K2));
+                            string result1 = Swap(AlgorithmSDES(InitialPermutation, this.K2));
                             string result2 = Permutate(AlgorithmSDES(result1, K1), this.PIn);
 
                             CompresionBytes.Add(ConvertStringToByte(result2));
                         }
 
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
+                        CifradoController.currentFile = rutaCifrado;
                     }
                 }
             }
