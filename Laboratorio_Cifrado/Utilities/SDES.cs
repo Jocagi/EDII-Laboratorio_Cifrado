@@ -245,10 +245,12 @@ namespace Laboratorio_Cifrado.Utilities
                         }
 
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
-                        CifradoController.currentFile = rutaCifrado;
                     }
                 }
             }
+
+            CifradoController.currentFile = rutaCifrado;
+
         }
 
         public void Descifrar(string path, int key)
@@ -284,10 +286,10 @@ namespace Laboratorio_Cifrado.Utilities
                         }
 
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
-                        CifradoController.currentFile = rutaCifrado;
                     }
                 }
             }
+            CifradoController.currentFile = rutaCifrado;
         }
     }
 }
