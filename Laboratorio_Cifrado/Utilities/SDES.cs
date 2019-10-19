@@ -6,6 +6,7 @@ using System.Web;
 using Laboratorio_Cifrado.Controllers;
 using Laboratorio_Cifrado.Models;
 using Microsoft.Ajax.Utilities;
+using System.Text;
 
 namespace Laboratorio_Cifrado.Utilities
 {
@@ -16,12 +17,23 @@ namespace Laboratorio_Cifrado.Utilities
 
         private string K1;
         private string K2;
-
-        private int[] P10 = {7,1,4,3,8,2,9,6,5,0};
-        private int[] P8 = {3,9,8,6,0,1,2,7};
-        private int[] P4 = {0,3,2,1};
-        private int[] EP = {1,3,0,2,3,2,0,1};
-        private int[] PI = {0,2,4,6,1,3,5,7};
+        #region permutaciones
+        public static string pp10 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P10.txt");
+        public static string DataP10 = System.IO.File.ReadAllText(pp10, Encoding.Default);
+        public static string pp8 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P8.txt");
+        public static string DataP8 = System.IO.File.ReadAllText(pp8, Encoding.Default);
+        public static string pp4 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P4.txt");
+        public static string DataP4 = System.IO.File.ReadAllText(pp4, Encoding.Default);
+        public static string ppep = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/EP.txt");
+        public static string DataEP = System.IO.File.ReadAllText(ppep, Encoding.Default);
+        public static string ppip = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/PI.txt");
+        public static string DataPI = System.IO.File.ReadAllText(ppip, Encoding.Default);
+        #endregion
+        private int[] P10 = DataP10.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P8 = DataP8.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P4 = DataP4.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] EP = DataEP.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] PI = DataPI.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
         private int[] PIn;
 
         #region SBOXES
@@ -217,7 +229,7 @@ namespace Laboratorio_Cifrado.Utilities
             GenerateKeys(key);
 
             #region Crear_Archivo
-            string NuevoArchivo = Path.GetFileName(path);
+            string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".scif";
             string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             #endregion
@@ -258,7 +270,7 @@ namespace Laboratorio_Cifrado.Utilities
             GenerateKeys(key);
 
             #region Crear_Archivo
-            string NuevoArchivo = Path.GetFileName(path);
+            string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".txt";
             string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             #endregion
