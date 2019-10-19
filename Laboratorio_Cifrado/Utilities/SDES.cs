@@ -229,7 +229,7 @@ namespace Laboratorio_Cifrado.Utilities
             GenerateKeys(key);
 
             #region Crear_Archivo
-            string NuevoArchivo = Path.GetFileName(path);
+            string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".scif";
             string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             #endregion
@@ -270,7 +270,7 @@ namespace Laboratorio_Cifrado.Utilities
             GenerateKeys(key);
 
             #region Crear_Archivo
-            string NuevoArchivo = Path.GetFileName(path);
+            string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".txt";
             string rutaCifrado = CifradoController.directorioArchivos + NuevoArchivo;
             Archivo.crearArchivo(rutaCifrado);
             #endregion
