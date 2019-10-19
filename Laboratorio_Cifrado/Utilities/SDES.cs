@@ -17,17 +17,23 @@ namespace Laboratorio_Cifrado.Utilities
 
         private string K1;
         private string K2;
-
+        #region permutaciones
         public static string pp10 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P10.txt");
+        public static string DataP10 = System.IO.File.ReadAllText(pp10, Encoding.Default);
         public static string pp8 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P8.txt");
+        public static string DataP8 = System.IO.File.ReadAllText(pp8, Encoding.Default);
         public static string pp4 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P4.txt");
+        public static string DataP4 = System.IO.File.ReadAllText(pp4, Encoding.Default);
         public static string ppep = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/EP.txt");
+        public static string DataEP = System.IO.File.ReadAllText(ppep, Encoding.Default);
         public static string ppip = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/PI.txt");
-        private int[] P10 = pp10.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] P8 = pp8.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] P4 = pp4.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] EP = ppep.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] PI = ppip.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        public static string DataPI = System.IO.File.ReadAllText(ppip, Encoding.Default);
+        #endregion
+        private int[] P10 = DataP10.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P8 = DataP8.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P4 = DataP4.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] EP = DataEP.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] PI = DataPI.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
         private int[] PIn;
 
         #region SBOXES
