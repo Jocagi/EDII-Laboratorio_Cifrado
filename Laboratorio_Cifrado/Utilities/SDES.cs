@@ -23,11 +23,11 @@ namespace Laboratorio_Cifrado.Utilities
         public static string pp4 = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/P4.txt");
         public static string ppep = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/EP.txt");
         public static string ppip = System.Web.HttpContext.Current.Server.MapPath("~/Permutaciones/PI.txt");
-        private int[] P10 = pp10.Split(';').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] P8 = pp8.Split(';').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] P4 = pp4.Split(';').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] EP = ppep.Split(';').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] PI = ppip.Split(';').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P10 = pp10.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P8 = pp8.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] P4 = pp4.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] EP = ppep.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+        private int[] PI = ppip.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
         private int[] PIn;
 
         #region SBOXES
