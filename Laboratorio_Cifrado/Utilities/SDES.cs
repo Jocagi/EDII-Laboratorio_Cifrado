@@ -34,7 +34,7 @@ namespace Laboratorio_Cifrado.Utilities
         private int[] P4 = DataP4.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
         private int[] EP = DataEP.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
         private int[] PI = DataPI.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-        private int[] PIn;
+        private int[] PIn; 
 
         #region SBOXES
 

@@ -18,6 +18,36 @@ namespace Laboratorio_Cifrado.Controllers
 
         public static string currentFile = "";
 
+        public ActionResult RSA()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RSA(HttpPostedFileBase file, string P, string Q, string cifrado, string operacion)
+        {
+            if (file != null)
+            {
+                    string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName) ?? "");
+                    UploadFile(path, file);
+
+                    switch(operacion)
+                    {
+                        case "1": //Cifrar
+                                  //RSA
+
+                            break;
+                        case "2": //Descifrar
+                                  //RSA
+
+                            break;
+                    }
+
+                    return RedirectToAction("Download"); 
+            }
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();

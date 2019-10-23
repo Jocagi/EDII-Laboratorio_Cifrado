@@ -152,6 +152,7 @@
     <Compile Include="Utilities\Buffer.cs" />
     <Compile Include="Utilities\Cesar.cs" />
     <Compile Include="Utilities\Espiral.cs" />
+    <Compile Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\SDES.cs" />
     <Compile Include="Utilities\ZigZag.cs" />
   </ItemGroup>
