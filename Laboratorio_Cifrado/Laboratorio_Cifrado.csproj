@@ -152,6 +152,7 @@
     <Compile Include="Utilities\Buffer.cs" />
     <Compile Include="Utilities\Cesar.cs" />
     <Compile Include="Utilities\Espiral.cs" />
+    <Compile Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\SDES.cs" />
     <Compile Include="Utilities\ZigZag.cs" />
   </ItemGroup>
@@ -197,6 +198,7 @@
     <Content Include="Views\Cifrado\CifrarZigZag.cshtml" />
     <Content Include="Views\Cifrado\DescifrarZigZag.cshtml" />
     <Content Include="Views\Cifrado\Download.cshtml" />
+    <Content Include="Views\Cifrado\RSA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
