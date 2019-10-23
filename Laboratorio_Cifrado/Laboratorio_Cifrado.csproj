@@ -198,7 +198,6 @@
     <Content Include="Views\Cifrado\CifrarZigZag.cshtml" />
     <Content Include="Views\Cifrado\DescifrarZigZag.cshtml" />
     <Content Include="Views\Cifrado\Download.cshtml" />
-    <Content Include="Views\Cifrado\RSA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

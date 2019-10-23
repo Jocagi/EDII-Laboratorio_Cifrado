@@ -273,7 +273,7 @@ namespace Laboratorio_Cifrado.Controllers
 
                     if (int.TryParse(password, out i))
                     {
-                        if (i < 1024 && i > 0)
+                        if (i < 1024 && i >= 0)
                         {
                             resultado = true;
                         }
