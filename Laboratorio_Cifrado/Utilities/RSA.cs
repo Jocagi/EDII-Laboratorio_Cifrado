@@ -139,7 +139,7 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             //Comprimir
                             string _byte = ConvertByteToString(item);
-                            string Encriptado = (n % (_byte ^ e));
+                            string Encriptado = (n % (_byte ^ e)).toString;
 
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
@@ -171,7 +171,7 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             //Comprimir
                             string _byte = ConvertByteToString(item);
-                            string Descencriptado = (n % (_byte ^ d));
+                            string Descencriptado = (n % (_byte ^ d)).toString;
 
                             CompresionBytes.Add(ConvertStringToByte(Descencriptado));
                         }
