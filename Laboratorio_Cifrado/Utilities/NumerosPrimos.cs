@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Web;
 
 namespace Laboratorio_Cifrado.Utilities
 {
+
     public class NumerosPrimos
     {
         public static bool esNumeroPrimo(int n)
@@ -16,7 +17,7 @@ namespace Laboratorio_Cifrado.Utilities
                     if (n % i == 0)
                     {
                         return false;
-                    }   
+                    }
                 }
 
                 return true;
@@ -29,38 +30,73 @@ namespace Laboratorio_Cifrado.Utilities
 
         public static int obtenerNumeroE(int N, int Phi)
         {
-            List<int> factoresN = Factorizar(N);
-            List<int> factoresPhi = Factorizar(Phi);
+            List<int> factoresN = obtenerCoprimos(N);
+            List<int> factoresPhi = obtenerCoprimos(Phi);
 
-            var comprimos = factoresN.Except(factoresPhi); 
+            List<int> coprimos = new List<int>();
 
-            int e = comprimos.Last(); //Numero mas grande
+            foreach (var item in factoresPhi)
+            {
+                if (factoresN.Contains(item))
+                {
+                    coprimos.Add(item);
+                }
+            }
+
+            int e = coprimos.Last(); //Numero mas grande
 
             return e;
         }
 
-        private static List<int> Factorizar(int n)
+        private static List<int> obtenerCoprimos(int n)
         {
-            List<int> factores = new List<int>();
+            //Lista de numeros
+            List<int> numeros = new List<int>();
 
-            //default
-            factores.Add(1);
-            factores.Add(n);
+            for (int i = 2; i < n; i++)
+            {
+                numeros.Add(i);
+            }
+
+            //Factorizar
+            List<int> factores = new List<int>();
 
             if (n % 2 == 0) //si es un numero par
             {
-              factores.Add(2);   
+                factores.Add(2);
             }
 
-            for (int i = 3; i < n/2; i+=2)
+            for (int i = 3; i < n / 2; i += 2)
             {
                 if (n % i == 0)
                 {
-                    factores.Add(2);
+                    factores.Add(i);
                 }
             }
 
-            return factores;
+            //Eliminar Multiplos
+
+            foreach (var item in factores)
+            {
+                eliminarMultiplos(item, ref numeros);
+            }
+
+            return numeros;
+        }
+
+        private static void eliminarMultiplos(int n, ref List<int> numeros)
+        {
+            List<int> remove = new List<int>();
+
+            foreach (var item in numeros)
+            {
+                if (item % n == 0)
+                {
+                    remove.Add(item);
+                }
+            }
+
+            numeros = numeros.Except(remove).ToList();
         }
     }
 }
