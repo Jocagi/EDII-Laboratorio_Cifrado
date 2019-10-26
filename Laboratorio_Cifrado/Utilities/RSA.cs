@@ -7,58 +7,28 @@ using Laboratorio_Cifrado.Controllers;
 using Laboratorio_Cifrado.Models;
 using Microsoft.Ajax.Utilities;
 using System.Text;
-using System.Numerics;
 
 namespace Laboratorio_Cifrado.Utilities
 {
     public class RSA
     {
         private const int bufferLength = 1024;
-        private const int _8bitDivide = 4;
-        private const int _10bitDivide = 5;
+
         private void Algoritmo(int P, int Q)
         {
-            #region Primos
-            List<int> Primos = new List<int>();
-            Primos.Add(2);
-            Primos.Add(3);
-            Primos.Add(5);
-            Primos.Add(7);
-            Primos.Add(11);
-            Primos.Add(13);
-            Primos.Add(17);
-            Primos.Add(19);
-            Primos.Add(23);
-            Primos.Add(29);
-            Primos.Add(31);
-            Primos.Add(37);
-            Primos.Add(41);
-            Primos.Add(43);
-            Primos.Add(53);
-            Primos.Add(59);
-            Primos.Add(61);
-            Primos.Add(67);
-            Primos.Add(71);
-            Primos.Add(73);
-            Primos.Add(79);
-            Primos.Add(83);
-            Primos.Add(89);
-            Primos.Add(97);
-            #endregion
 
             #region variables
             //Declaracion de variables
             int p = P;
             int q = Q;
             int n = p * q;
-            int n2 = p * q;
             int phi = ((p - 1) * (q - 1));
             int phi2 = ((p - 1) * (q - 1)); //Utilizo un segundo phi para la obtenicón de la d
             int phi3 = ((p - 1) * (q - 1)); //El tercer phi solo sirve para aplicar el MOD, se crean 3 ya que en cada método se le iba cambiando el valor a phi.
             int a;
             int d = 1;
             int contador = 0;
-            int e;
+            int e = NumerosPrimos.obtenerNumeroE(n, phi);
             #endregion
 
             //Aqui se obtiene la primer columna
@@ -89,7 +59,7 @@ namespace Laboratorio_Cifrado.Utilities
                     }
                     phi2 = d; //Aquí ya va cambiando los valores para seguir con el ciclo
                     d = c; //Cuando el contador supere al arreglo, saldrá del ciclo y se obtendrá la d
-                    contador = contador++;
+                    contador++;
                 }
             }
             while (contador < CocienteArreglo.Length);
@@ -118,7 +88,7 @@ namespace Laboratorio_Cifrado.Utilities
 
         /*Inge sinceramente este buffer lo hice yo hace como 2 labs pero ahora ya solo Yisus
         Y quizas Jose saben como funciona. :c*/
-        private void Cifrar(string path, int d, int e, int n)
+        private void Cifrar(string path, int e, int n)
         {
             #region Crear Archivo
             string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".scif";
@@ -138,8 +108,8 @@ namespace Laboratorio_Cifrado.Utilities
                         foreach(var item in buffer)
                         {
                             //Comprimir
-                            string _byte = ConvertByteToString(item);
-                            string Encriptado = (n % (_byte ^ e)).toString;
+                            int _byte = (int) item;
+                            string Encriptado = Convert.ToString(n % (_byte ^ e));
 
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
@@ -150,7 +120,7 @@ namespace Laboratorio_Cifrado.Utilities
 
             CifradoController.currentFile = rutaCifrado;
         }
-        private void Descifrar(string path, int d, string Encriptado, int n)
+        private void Descifrar(string path, int d, int n)
         {
             #region Crear Archivo
             string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".scif";
@@ -170,8 +140,8 @@ namespace Laboratorio_Cifrado.Utilities
                         foreach (var item in buffer)
                         {
                             //Comprimir
-                            string _byte = ConvertByteToString(item);
-                            string Descencriptado = (n % (_byte ^ d)).toString;
+                            int _byte = (int)item;
+                            string Descencriptado = Convert.ToString(n % (_byte ^ d));
 
                             CompresionBytes.Add(ConvertStringToByte(Descencriptado));
                         }

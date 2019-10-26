@@ -18,6 +18,16 @@ namespace Laboratorio_Cifrado.Controllers
 
         public static string currentFile = "";
 
+        public ActionResult GenerarLlaves()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerarLlaves(string p, string q)
+        {
+            return RedirectToAction("RSA");
+        }
+
         public ActionResult RSA()
         {
             return View();
