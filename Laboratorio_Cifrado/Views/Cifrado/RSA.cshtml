@@ -3,24 +3,20 @@
     ViewBag.Title = "RSA";
 }
 
+<h2>RSA</h2>
+
 <div class="jumbotron">
     <h3>Subir archivo a Cifrar</h3>
 </div>
 
-@using (Html.BeginForm("RSA", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Index", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <label for="file">Subir archivo:</label>
-    <input type="file" name="file" id="file" /><br>
-    <label for="password">Ingrese P:</label>
-    <input type="password" name="P" id="P" /> <br>
-    <label for="password">Ingrese Q:</label>
-    <input type="password" name="Q" id="Q" /> <br>
-    <label for="operacion">Ingrese Operacion a Realizar:</label>
-    <select id="operacion" name="Operacion">
-        <option value="1">Cifrar</option>
-        <option value="2">Descifrar</option>
-    </select>
 
+    <label for="file">Subir archivo a cifrar:</label>
+    <input type="file" name="file" id="file" /><br>
+
+    <label for="key">Subir archivo de llave:</label>
+    <input type="file" name="key" id="key" /><br>
 
     <br>
     <input type="submit" value="Aceptar" />

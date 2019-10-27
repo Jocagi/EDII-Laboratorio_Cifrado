@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "RSA";
+}
+
+
+<div class="jumbotron">
+    <h3>Escriba dos numeros primos para generar llaves RSA</h3>
+</div>
+
+@using (Html.BeginForm("GenerarLlaves", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <label for="p">Ingrese P:</label>
+    <input type="text" name="p" id="p" /><br>
+
+    <label for="q">Ingrese Q:</label>
+    <input type="text" name="q" id="q" /> <br>
+    
+    <br>
+    <input type="submit" value="Aceptar" />
+
+    <br><br>
+
+    <label style="color: red">@ViewBag.Message</label>
+}
+

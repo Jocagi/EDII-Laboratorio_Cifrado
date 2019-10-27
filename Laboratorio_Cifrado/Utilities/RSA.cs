@@ -14,7 +14,7 @@ namespace Laboratorio_Cifrado.Utilities
     {
         private const int bufferLength = 1024;
 
-        private void Algoritmo(int P, int Q)
+        public static void GenerarLlaves(int P, int Q)
         {
 
             #region variables
@@ -65,17 +65,17 @@ namespace Laboratorio_Cifrado.Utilities
             while (contador < CocienteArreglo.Length);
         }
 
-        private byte ConvertStringToByte(string value)
+        private static byte ConvertStringToByte(string value)
         {
             return Convert.ToByte(Convert.ToUInt32(value, 2));
         }
 
-        private string ConvertByteToString(byte value)
+        private static string ConvertByteToString(byte value)
         {
             return Convert.ToString(value, 2).PadLeft(8, '0'); //Produce cadena "00111111";
         }
 
-        private void  WriteToFile(string path, byte[] value)
+        private static void  WriteToFile(string path, byte[] value)
         {
             FileStream fs = new FileStream(path, FileMode.Append);
             BinaryWriter bw = new BinaryWriter(fs);
@@ -84,11 +84,10 @@ namespace Laboratorio_Cifrado.Utilities
             bw.Close();
         }
 
-
-
+        
         /*Inge sinceramente este buffer lo hice yo hace como 2 labs pero ahora ya solo Yisus
         Y quizas Jose saben como funciona. :c*/
-        private void Cifrar(string path, int e, int n)
+        public static void Cifrar(string path, int e, int n)
         {
             #region Crear Archivo
             string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".scif";
@@ -109,7 +108,7 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             //Comprimir
                             int _byte = (int) item;
-                            string Encriptado = Convert.ToString(n % (_byte ^ e));
+                            string Encriptado = Convert.ToString((_byte ^ e) % n);
 
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
@@ -141,7 +140,7 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             //Comprimir
                             int _byte = (int)item;
-                            string Descencriptado = Convert.ToString(n % (_byte ^ d));
+                            string Descencriptado = Convert.ToString((_byte ^ d) % n);
 
                             CompresionBytes.Add(ConvertStringToByte(Descencriptado));
                         }

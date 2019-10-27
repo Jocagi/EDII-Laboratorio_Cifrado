@@ -17,6 +17,8 @@ namespace Laboratorio_Cifrado.Controllers
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads/");
 
         public static string currentFile = "";
+        public static string publicKey = "";
+        public static string privateKey = "";
 
         public ActionResult GenerarLlaves()
         {
@@ -25,7 +27,32 @@ namespace Laboratorio_Cifrado.Controllers
         [HttpPost]
         public ActionResult GenerarLlaves(string p, string q)
         {
-            return RedirectToAction("RSA");
+           
+            if (int.TryParse(p, out int NumeroP) && int.TryParse(q, out int NumeroQ))
+            {
+                if (NumerosPrimos.esNumeroPrimo(NumeroP) && NumerosPrimos.esNumeroPrimo(NumeroQ))
+                {
+                    if (NumeroP * NumeroQ >= 256) //para que ocupe todos los bytes
+                    {
+                        Utilities.RSA.GenerarLlaves(NumeroP, NumeroQ);
+                        return RedirectToAction("RSA");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "P y Q deben ser numeros más grandes";
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "P y Q deben ser numeros primos";
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Entrada no valida";
+            }
+
+            return View();
         }
 
         public ActionResult RSA()
@@ -34,27 +61,31 @@ namespace Laboratorio_Cifrado.Controllers
         }
 
         [HttpPost]
-        public ActionResult RSA(HttpPostedFileBase file, string P, string Q, string cifrado, string operacion)
+        public ActionResult RSA(HttpPostedFileBase file, HttpPostedFileBase clave)
         {
-            if (file != null)
+            if (file != null && clave != null)
             {
-                    string path = Path.Combine(directorioUploads, Path.GetFileName(file.FileName) ?? "");
-                    UploadFile(path, file);
+                string pathArchivo = Path.Combine(directorioUploads, Path.GetFileName(file.FileName) ?? "");
+                string pathClave = Path.Combine(directorioUploads, Path.GetFileName(clave.FileName) ?? "");
 
-                    switch(operacion)
-                    {
-                        case "1": //Cifrar
-                                  //RSA
+                UploadFile(pathArchivo, file);
+                UploadFile(pathClave, clave);
 
-                            break;
-                        case "2": //Descifrar
-                                  //RSA
+                //leer texto de la archivo llave
+                string[] keyText =  System.IO.File.ReadAllText(pathClave).Split(',');
 
-                            break;
-                    }
+                int.TryParse(keyText[0], out int power);
+                int.TryParse(keyText[1], out int N);
 
-                    return RedirectToAction("Download"); 
+                Utilities.RSA.Cifrar(pathArchivo, power, N);
+
+                return RedirectToAction("Download");
             }
+            else
+            {
+                ViewBag.Message = "Debe especificar el archivo";
+            }
+
             return View();
         }
 
