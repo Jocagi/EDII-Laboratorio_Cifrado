@@ -64,27 +64,6 @@ namespace Laboratorio_Cifrado.Utilities
                 }
             }
             while (contador < CocienteArreglo.Length);
-
-            string dd = d.ToString();
-            string ee = e.ToString();
-            string nn = n.ToString();
-            string[] LlavePublica = { ee, nn };
-            using (StreamWriter LlavePublic = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/Llaves/LlavePublica.txt"))) 
-            {
-                foreach (string item in LlavePublica)
-                {
-                    LlavePublic.WriteLine(item+",");   
-                }
-            }
-            string[] LlavePrivada = { dd, nn };
-            using (StreamWriter LlavePrivate = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/Llaves/LlavePrivada.txt")))
-            {
-                foreach (string item in LlavePrivada)
-                {
-                    LlavePrivate.WriteLine(item+",");
-                }
-            }
-            Console.WriteLine();
         }
     }
 }
