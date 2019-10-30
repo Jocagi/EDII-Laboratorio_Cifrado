@@ -152,6 +152,7 @@
     <Compile Include="Utilities\Cesar.cs" />
     <Compile Include="Utilities\Espiral.cs" />
     <Compile Include="Utilities\NumerosPrimos.cs" />
+    <Compile Include="Utilities\Llaves.cs" />
     <Compile Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\SDES.cs" />
     <Compile Include="Utilities\ZigZag.cs" />
@@ -200,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Llaves\" />
     <Folder Include="Permutaciones\" />
     <Folder Include="Uploads\" />
   </ItemGroup>

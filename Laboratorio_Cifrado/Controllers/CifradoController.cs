@@ -34,7 +34,7 @@ namespace Laboratorio_Cifrado.Controllers
                 {
                     if (NumeroP * NumeroQ >= 256) //para que ocupe todos los bytes
                     {
-                        Utilities.RSA.GenerarLlaves(NumeroP, NumeroQ);
+                        Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
                         return RedirectToAction("RSA");
                     }
                     else
