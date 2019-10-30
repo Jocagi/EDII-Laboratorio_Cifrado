@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Laboratorio_Cifrado.Utilities
 {
-    public class RSA
+    public class Llaves
     {
         private const int bufferLength = 1024;
 
@@ -73,7 +73,7 @@ namespace Laboratorio_Cifrado.Utilities
             {
                 foreach (string item in LlavePublica)
                 {
-                    LlavePublic.WriteLine(item);   
+                    LlavePublic.WriteLine(item+",");   
                 }
             }
             string[] LlavePrivada = { dd, nn };
@@ -81,7 +81,7 @@ namespace Laboratorio_Cifrado.Utilities
             {
                 foreach (string item in LlavePrivada)
                 {
-                    LlavePrivate.WriteLine(item);
+                    LlavePrivate.WriteLine(item+",");
                 }
             }
             Console.WriteLine();

@@ -12,6 +12,7 @@ namespace Laboratorio_Cifrado.Utilities
 {
     public class RSA
     {
+        /*
         private static byte ConvertStringToByte(string value)
         {
             return Convert.ToByte(Convert.ToUInt32(value, 2));
@@ -29,12 +30,12 @@ namespace Laboratorio_Cifrado.Utilities
 
             bw.Write(value);
             bw.Close();
-        }
+        }*/
 
 
         /*Inge sinceramente este buffer lo hice yo hace como 2 labs pero ahora ya solo Yisus
         Y quizas Jose saben como funciona. :c*/
-        public static void Cifrar(string path, string path2, string path3)
+        /*public static void Cifrar(string path, string path2, string path3)
         {
             #region Crear Archivo
             string NuevoArchivo = Path.GetFileNameWithoutExtension(path) + ".scif";
@@ -97,6 +98,6 @@ namespace Laboratorio_Cifrado.Utilities
             }
 
             CifradoController.currentFile = rutaCifrado;
-        }
+        }*/
     }
 }
