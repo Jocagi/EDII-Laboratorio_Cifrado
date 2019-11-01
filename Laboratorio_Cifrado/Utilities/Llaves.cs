@@ -34,7 +34,7 @@ namespace Laboratorio_Cifrado.Utilities
 
             //Aqui se obtiene la primer columna
             List<int> Cocientes = new List<int>();
-            Dictionary<int, int> prueba = new Dictionary<int, int>();
+
             do
             {
                 int cociente = phi4 / e;
@@ -73,19 +73,12 @@ namespace Laboratorio_Cifrado.Utilities
 
             using (StreamWriter LlavePublic = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/Llaves/LlavePublica.txt")))
             {
-                foreach (string item in LlavePublica)
-                {
-                    LlavePublic.WriteLine(item);
-                }
+                LlavePublic.WriteLine(LlavePublica[0] + "," + LlavePublica[1]);
             }
             using (StreamWriter LlavePrivate = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/Llaves/LlavePrivada.txt")))
             {
-                foreach (string item in LlavePrivada)
-                {
-                    LlavePrivate.WriteLine(item);
-                }
+                LlavePrivate.WriteLine(LlavePrivada[0] + "," + LlavePrivada[1]);
             }
-            Console.WriteLine();
         }
     }
 }

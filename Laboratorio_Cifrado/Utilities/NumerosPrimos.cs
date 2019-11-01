@@ -42,8 +42,10 @@ namespace Laboratorio_Cifrado.Utilities
                     coprimos.Add(item);
                 }
             }
-            coprimos.RemoveRange(0, 10);
-            int e = coprimos.First(); //Numero mas grande
+
+            Random rnd = new Random();
+            double range = coprimos.Count / 2;
+            int e = coprimos[rnd.Next(0, Convert.ToInt16(Math.Truncate(range)))]; 
 
             return e;
         }

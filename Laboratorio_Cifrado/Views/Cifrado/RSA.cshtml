@@ -9,14 +9,14 @@
     <h3>Subir archivo a Cifrar</h3>
 </div>
 
-@using (Html.BeginForm("Index", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("RSA", "Cifrado", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     <label for="file">Subir archivo a cifrar:</label>
     <input type="file" name="file" id="file" /><br>
 
-    <label for="key">Subir archivo de llave:</label>
-    <input type="file" name="key" id="key" /><br>
+    <label for="clave">Subir archivo de llave:</label>
+    <input type="file" name="clave" id="clave" /><br>
 
     <br>
     <input type="submit" value="Aceptar" />
