@@ -44,7 +44,8 @@ namespace Laboratorio_Cifrado.Utilities
             }
 
             Random rnd = new Random();
-            int e = coprimos[rnd.Next(0,coprimos.Count/2)]; 
+            double range = coprimos.Count / 2;
+            int e = coprimos[rnd.Next(0, Convert.ToInt16(Math.Truncate(range)))]; 
 
             return e;
         }
