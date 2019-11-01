@@ -42,8 +42,8 @@ namespace Laboratorio_Cifrado.Utilities
                     coprimos.Add(item);
                 }
             }
-
-            int e = coprimos.Last(); //Numero mas grande
+            coprimos.RemoveRange(0, 10);
+            int e = coprimos.First(); //Numero mas grande
 
             return e;
         }

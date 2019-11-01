@@ -22,9 +22,13 @@ namespace Laboratorio_Cifrado.Utilities
             int q = Q;
             int n = P * Q;
             int phi = ((p - 1) * (q - 1));
+            int phi2 = ((p - 1) * (q - 1));
+            int phi3 = ((p - 1) * (q - 1));
+            int phi4 = ((p - 1) * (q - 1));
             int a;
             int contador = 0;
             int d = 1;
+            int e2 = NumerosPrimos.obtenerNumeroE(n, phi);
             int e = NumerosPrimos.obtenerNumeroE(n, phi);
             #endregion
 
@@ -33,13 +37,11 @@ namespace Laboratorio_Cifrado.Utilities
             Dictionary<int, int> prueba = new Dictionary<int, int>();
             do
             {
-                int AUXe = e;
-                int AuxPhi = phi;
-                int cociente = AuxPhi / AUXe;
-                int resultado = cociente * AUXe;
-                a = AuxPhi - resultado;
-                AuxPhi = AUXe;
-                AUXe = a; //La "a" funciona casi que como un contador
+                int cociente = phi4 / e;
+                int resultado = cociente * e;
+                a = phi4 - resultado;
+                phi4 = e;
+                e = a; //La "a" funciona casi que como un contador
                 Cocientes.Add(cociente);
             }
             while (a > 1);
@@ -50,21 +52,19 @@ namespace Laboratorio_Cifrado.Utilities
             {
                 for (int i = 0; i < CocienteArreglo.Length; i++) //Realiza el for siempre y cuando el contador no supere el tamaño del arreglo
                 {
-                    int AuxPhi = phi;
-                    int AuxPhi2 = phi;
                     int Producto = CocienteArreglo[i] * d; //Aquí calcula el producto que se usara para la resta
-                    int c = AuxPhi - Producto; //Obtenesmos c la cual pasa a ser la d al final
+                    int c = phi2 - Producto; //Obtenesmos c la cual pasa a ser la d al final
                     if (c < 0) //Este if sirve para evitar los números negativos
                     {
-                        c = AuxPhi2 % c; //Se aplica mod de phi siempre
+                        c = phi3 % c; //Se aplica mod de phi siempre
                     }
-                    AuxPhi = d; //Aquí ya va cambiando los valores para seguir con el ciclo
+                    phi2 = d; //Aquí ya va cambiando los valores para seguir con el ciclo
                     d = c; //Cuando el contador supere al arreglo, saldrá del ciclo y se obtendrá la d
                      contador++;
                 }
             }
             while (contador < CocienteArreglo.Length);
-            string ee = e.ToString();
+            string ee = e2.ToString();
             string dd = d.ToString();
             string nn = n.ToString();           
             string[] LlavePublica = { ee, nn };
