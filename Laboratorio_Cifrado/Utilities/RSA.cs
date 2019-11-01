@@ -56,9 +56,8 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             //Comprimir
                             int _byte = (int)item;
-                            double Potencia = Math.Pow(_byte,power);
-                            int res = Convert.ToInt32(Potencia);
-                            int Mod = (res % N);
+                            long Potencia = (long)Math.Pow(_byte, power);
+                            long Mod = (Potencia % N);
                             string Encriptado = Mod.ToString();
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
