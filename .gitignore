@@ -352,3 +352,6 @@ MigrationBackup/
 .ionide/
 
 .vs/
+
+Laboratorio_Cifrado/Archivos/
+Laboratorio_Cifrado/Llaves/

@@ -43,7 +43,8 @@ namespace Laboratorio_Cifrado.Utilities
                 }
             }
 
-            int e = coprimos.Last(); //Numero mas grande
+            Random rnd = new Random();
+            int e = coprimos[rnd.Next(0,coprimos.Count/2)]; 
 
             return e;
         }
