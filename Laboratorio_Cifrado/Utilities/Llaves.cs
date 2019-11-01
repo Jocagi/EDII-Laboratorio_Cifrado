@@ -11,8 +11,7 @@ using System.Text;
 namespace Laboratorio_Cifrado.Utilities
 {
     public class Llaves
-    {
-        private const int bufferLength = 1024;
+    { 
 
         public static void GenerarLlaves(int P, int Q)
         {
@@ -21,11 +20,11 @@ namespace Laboratorio_Cifrado.Utilities
             //Declaracion de variables
             int p = P;
             int q = Q;
-            int n = p * q;
+            int n = P * Q;
             int phi = ((p - 1) * (q - 1));
             int a;
-            int d = 1;
             int contador = 0;
+            int d = 1;
             int e = NumerosPrimos.obtenerNumeroE(n, phi);
             #endregion
 
@@ -34,12 +33,13 @@ namespace Laboratorio_Cifrado.Utilities
             Dictionary<int, int> prueba = new Dictionary<int, int>();
             do
             {
+                int AUXe = e;
                 int AuxPhi = phi;
-                int cociente = AuxPhi / e;
-                int resultado = cociente * e;
+                int cociente = AuxPhi / AUXe;
+                int resultado = cociente * AUXe;
                 a = AuxPhi - resultado;
-                AuxPhi = e;
-                e = a; //La "a" funciona casi que como un contador
+                AuxPhi = AUXe;
+                AUXe = a; //La "a" funciona casi que como un contador
                 Cocientes.Add(cociente);
             }
             while (a > 1);
@@ -60,10 +60,32 @@ namespace Laboratorio_Cifrado.Utilities
                     }
                     AuxPhi = d; //Aquí ya va cambiando los valores para seguir con el ciclo
                     d = c; //Cuando el contador supere al arreglo, saldrá del ciclo y se obtendrá la d
-                    contador++;
+                     contador++;
                 }
             }
             while (contador < CocienteArreglo.Length);
+            string ee = e.ToString();
+            string dd = d.ToString();
+            string nn = n.ToString();           
+            string[] LlavePublica = { ee, nn };
+            string[] LlavePrivada = { dd, nn };
+
+
+            using (StreamWriter LlavePublic = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/Llaves/LlavePublica.txt")))
+            {
+                foreach (string item in LlavePublica)
+                {
+                    LlavePublic.WriteLine(item);
+                }
+            }
+            using (StreamWriter LlavePrivate = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("~/Llaves/LlavePrivada.txt")))
+            {
+                foreach (string item in LlavePrivada)
+                {
+                    LlavePrivate.WriteLine(item);
+                }
+            }
+            Console.WriteLine();
         }
     }
 }

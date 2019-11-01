@@ -77,7 +77,7 @@ namespace Laboratorio_Cifrado.Controllers
                 int.TryParse(keyText[0], out int power);
                 int.TryParse(keyText[1], out int N);
 
-                //Utilities.RSA.Cifrar(pathArchivo, power, N);
+                Utilities.RSA.Cifrar(pathArchivo, power, N);
 
                 return RedirectToAction("Download");
             }
