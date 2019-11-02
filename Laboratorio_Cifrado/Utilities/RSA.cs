@@ -45,29 +45,43 @@ namespace Laboratorio_Cifrado.Utilities
             Archivo.crearArchivo(rutaCifrado);
             #endregion
 
-            
+
+            int leer = Convert.ToInt32(N);
+            string n = Convert.ToString(leer, 2);
+            decimal cant_bytes = Math.Ceiling(Convert.ToDecimal(n.Length) / 8);
+            List<byte> escribir = new List<byte>();
+            var buffer = new byte[bufferLength];
             using (var file = new FileStream(path, FileMode.Open))
             {
                 using (var reader = new BinaryReader(file))
                 {
                     while (reader.BaseStream.Position != reader.BaseStream.Length)
                     {
-                        var buffer = reader.ReadBytes(bufferLength);
+                        // var buffer = reader.ReadBytes(bufferLength);
                         List<byte> CompresionBytes = new List<byte>();
 
                         foreach (var item in buffer)
                         {
                             //Comprimir
-                           // int _byte = (int)item; 
+                            // int _byte = (int)item; 
                             BigInteger Potencia = BigInteger.Pow(item, power);
                             BigInteger Mod = (Potencia % N);
-                            string Encriptado = Convert.ToString((int)Mod, 2);
+                            string bits = Convert.ToString((int)Mod, 2);
+                            string pp = bits.PadLeft(Convert.ToInt32((cant_bytes = 8)), '0');
+                            while (pp.Length != 8)
+                            {
+                                escribir.Add((Convert.ToByte(pp.Substring(0, 8), 2)));
+                                pp = pp.Remove(0, 8);
+                            }
+                            string Encriptado = pp;
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
                     }
                 }
             }
+
+
 
             CifradoController.currentFile = rutaCifrado;
         }
