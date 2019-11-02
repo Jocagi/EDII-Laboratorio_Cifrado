@@ -36,15 +36,15 @@ namespace Laboratorio_Cifrado.Controllers
                 {
                     Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
                     return RedirectToAction("RSA");
-                    /*if (NumeroP * NumeroQ >= 256) //para que ocupe todos los bytes
+                    if (NumeroP * NumeroQ <= 256) 
                     {
                         Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
                         return RedirectToAction("RSA");
                     }
                     else
                     {
-                        ViewBag.Message = "P y Q deben ser numeros más grandes";
-                    }*/
+                        ViewBag.Message = "P y Q deben ser numeros donde no superen 256";
+                    }
                 }
                 else
                 {
