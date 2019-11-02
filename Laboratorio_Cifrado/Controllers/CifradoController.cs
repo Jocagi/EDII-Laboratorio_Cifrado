@@ -34,7 +34,9 @@ namespace Laboratorio_Cifrado.Controllers
             {
                 if (NumerosPrimos.esNumeroPrimo(NumeroP) && NumerosPrimos.esNumeroPrimo(NumeroQ))
                 {
-                    if (NumeroP * NumeroQ >= 256) //para que ocupe todos los bytes
+                    Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
+                    return RedirectToAction("RSA");
+                    /*if (NumeroP * NumeroQ >= 256) //para que ocupe todos los bytes
                     {
                         Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
                         return RedirectToAction("RSA");
@@ -42,7 +44,7 @@ namespace Laboratorio_Cifrado.Controllers
                     else
                     {
                         ViewBag.Message = "P y Q deben ser numeros más grandes";
-                    }
+                    }*/
                 }
                 else
                 {

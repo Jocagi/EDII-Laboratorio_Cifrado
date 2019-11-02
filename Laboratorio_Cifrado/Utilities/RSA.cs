@@ -17,7 +17,7 @@ namespace Laboratorio_Cifrado.Utilities
         private const int bufferLength = 1024;
         private static byte ConvertStringToByte(string value)
         {
-            return Convert.ToByte(Convert.ToUInt32(value, 2));
+            return Convert.ToByte(value, 2);
         }
 
         private static string ConvertByteToString(byte value)
@@ -45,6 +45,7 @@ namespace Laboratorio_Cifrado.Utilities
             Archivo.crearArchivo(rutaCifrado);
             #endregion
 
+            
             using (var file = new FileStream(path, FileMode.Open))
             {
                 using (var reader = new BinaryReader(file))
@@ -57,10 +58,10 @@ namespace Laboratorio_Cifrado.Utilities
                         foreach (var item in buffer)
                         {
                             //Comprimir
-                            int _byte = (int)item;
-                            BigInteger Potencia = BigInteger.Pow(_byte, power);
+                           // int _byte = (int)item; 
+                            BigInteger Potencia = BigInteger.Pow(item, power);
                             BigInteger Mod = (Potencia % N);
-                            string Encriptado = Mod.ToString() ;
+                            string Encriptado = Convert.ToString((int)Mod, 2);
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
