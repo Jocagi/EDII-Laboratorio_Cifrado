@@ -60,7 +60,7 @@ namespace Laboratorio_Cifrado.Utilities
                             int _byte = (int)item;
                             BigInteger Potencia = BigInteger.Pow(_byte, power);
                             BigInteger Mod = (Potencia % N);
-                            string Encriptado = Mod.ToString();
+                            string Encriptado = Mod.ToString() ;
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
                         WriteToFile(rutaCifrado, CompresionBytes.ToArray());
