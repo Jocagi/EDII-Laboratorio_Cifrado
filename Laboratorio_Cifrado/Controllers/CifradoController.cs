@@ -18,8 +18,8 @@ namespace Laboratorio_Cifrado.Controllers
         public static string directorioLlaves = System.Web.HttpContext.Current.Server.MapPath("~/Llaves/");
 
         public static string currentFile = "";
-        public static string publicKey = "";
-        public static string privateKey = "";
+        public static string publicKey = directorioLlaves + "public.key";
+        public static string privateKey = directorioLlaves + "private.key";
 
         public ActionResult GenerarLlaves()
         {
@@ -39,6 +39,12 @@ namespace Laboratorio_Cifrado.Controllers
                     if (NumeroP * NumeroQ >= 256) 
                     {
                         Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
+
+                        currentFile = publicKey;
+                        DownloadFile();
+                        currentFile = privateKey;
+                        DownloadFile();
+
                         return RedirectToAction("RSA");
                     }
                     else

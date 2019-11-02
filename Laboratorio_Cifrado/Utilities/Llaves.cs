@@ -71,11 +71,11 @@ namespace Laboratorio_Cifrado.Utilities
             string[] LlavePrivada = { dd, nn };
 
 
-            using (StreamWriter LlavePublic = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("Archivos/Uploads/LlavePublica.txt")))
+            using (StreamWriter LlavePublic = new StreamWriter(CifradoController.publicKey))
             {
                 LlavePublic.WriteLine(LlavePublica[0] + "," + LlavePublica[1]);
             }
-            using (StreamWriter LlavePrivate = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("Archivos/Uploads/LlavePrivada.txt")))
+            using (StreamWriter LlavePrivate = new StreamWriter(CifradoController.privateKey))
             {
                 LlavePrivate.WriteLine(LlavePrivada[0] + "," + LlavePrivada[1]);
             }
