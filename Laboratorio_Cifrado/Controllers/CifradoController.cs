@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
@@ -29,27 +30,19 @@ namespace Laboratorio_Cifrado.Controllers
         [HttpPost]
         public ActionResult GenerarLlaves(string p, string q)
         {
-           
             if (int.TryParse(p, out int NumeroP) && int.TryParse(q, out int NumeroQ))
             {
                 if (NumerosPrimos.esNumeroPrimo(NumeroP) && NumerosPrimos.esNumeroPrimo(NumeroQ))
                 {
-                    Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
-                    return RedirectToAction("RSA");
                     if (NumeroP * NumeroQ >= 256) 
                     {
-                        Utilities.Llaves.GenerarLlaves(NumeroP, NumeroQ);
-
-                        currentFile = publicKey;
-                        DownloadFile();
-                        currentFile = privateKey;
-                        DownloadFile();
-
-                        return RedirectToAction("RSA");
+                        Llaves.GenerarLlaves(NumeroP, NumeroQ);
+                        
+                        return DownloadKeys();
                     }
                     else
                     {
-                        ViewBag.Message = "P y Q deben ser numeros mayores a 256";
+                        ViewBag.Message = "P y Q deben ser numeros mayores";
                     }
                 }
                 else
@@ -237,6 +230,29 @@ namespace Laboratorio_Cifrado.Controllers
             {
                 ViewBag.Message = "No existe el archivo";
                 return RedirectToAction("Download");
+            }
+        }
+
+        private ActionResult DownloadKeys()
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                {
+                    var file1 = archive.CreateEntry("public.key");
+                    using (var streamWriter = new StreamWriter(file1.Open()))
+                    {
+                        streamWriter.Write(System.IO.File.ReadAllText(publicKey));
+                    }
+
+                    var file2 = archive.CreateEntry("private.key");
+                    using (var streamWriter = new StreamWriter(file2.Open()))
+                    {
+                        streamWriter.Write(System.IO.File.ReadAllText(privateKey));
+                    }
+                }
+
+                return File(memoryStream.ToArray(), "application/zip", "Keys.zip");
             }
         }
         #endregion
