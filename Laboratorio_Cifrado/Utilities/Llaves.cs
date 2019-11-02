@@ -20,9 +20,9 @@ namespace Laboratorio_Cifrado.Utilities
             //Declaracion de variables
             int n = P * Q;
             int phi = ((P - 1) * (Q - 1));
-            int phi2 = ((P - 1) * (Q - 1));
-            int phi3 = ((P - 1) * (Q - 1));
-            int phi4 = ((P - 1) * (Q - 1));
+            int phi2 = phi;
+            int phi3 = phi;
+            int phi4 = phi;
             int a;
             int contador = 0;
             int d = 1;

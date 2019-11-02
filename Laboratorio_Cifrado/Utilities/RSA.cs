@@ -70,11 +70,13 @@ namespace Laboratorio_Cifrado.Utilities
                 
                 using (var reader = new BinaryReader(file))
                 {
+                    Dictionary<int, BigInteger> cipherDictionary = new Dictionary<int, BigInteger>(); //Para eficiencia
                     List<byte> CompresionBytes = new List<byte>();
                     string individualBits = "";
                     int ByteSize = byteSize(N);
                     int ReadLenght = 8;
                     string readBits = "";
+                    BigInteger Mod;
 
                     //Agregaar un flag para saber si es un archivo cifrado o descifrado
                     byte firstByte = reader.ReadByte();
@@ -104,9 +106,18 @@ namespace Laboratorio_Cifrado.Utilities
                             {
                                 actual = ConvertByteStringToInt(readBits.Substring(0, ReadLenght));
                                 readBits = readBits.Remove(0, ReadLenght);
+                                
+                                if (!cipherDictionary.ContainsKey(actual)) //Operar numeros grandes es muy lento :(
+                                {
+                                    BigInteger Potencia = BigInteger.Pow(actual, power);
+                                    Mod = (Potencia % N);
+                                    cipherDictionary.Add(actual, Mod);
+                                }
+                                else
+                                {
+                                    Mod = cipherDictionary[actual];
+                                }
 
-                                BigInteger Potencia = BigInteger.Pow(actual, power);
-                                BigInteger Mod = (Potencia % N);
                                 string bits = Convert.ToString((int)Mod, 2).PadLeft(ByteSize, '0');
 
                                 individualBits += bits;
@@ -116,10 +127,10 @@ namespace Laboratorio_Cifrado.Utilities
                                     CompresionBytes.Add((Convert.ToByte(individualBits.Substring(0, 8), 2)));
                                     individualBits = individualBits.Remove(0, 8);
                                 }
-
-                                WriteToFile(rutaCifrado, CompresionBytes.ToArray());
-                                CompresionBytes.Clear();
                             }
+
+                            WriteToFile(rutaCifrado, CompresionBytes.ToArray());
+                            CompresionBytes.Clear();
                         }
                     }
 
