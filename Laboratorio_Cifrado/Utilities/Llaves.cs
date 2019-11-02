@@ -54,7 +54,7 @@ namespace Laboratorio_Cifrado.Utilities
                     int c = phi2 - Producto; //Obtenesmos c la cual pasa a ser la d al final
                     if (c < 0) //Este if sirve para evitar los números negativos
                     {
-                        c = c%phi3; //Se aplica mod de phi siempre
+                        c = phi3%c; //Se aplica mod de phi siempre
                     }
                     phi2 = d; //Aquí ya va cambiando los valores para seguir con el ciclo
                     d = c; //Cuando el contador supere al arreglo, saldrá del ciclo y se obtendrá la d
