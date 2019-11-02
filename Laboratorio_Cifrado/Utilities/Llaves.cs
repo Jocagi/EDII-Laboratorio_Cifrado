@@ -18,18 +18,16 @@ namespace Laboratorio_Cifrado.Utilities
 
             #region variables
             //Declaracion de variables
-            int p = P;
-            int q = Q;
             int n = P * Q;
-            int phi = ((p - 1) * (q - 1));
-            int phi2 = ((p - 1) * (q - 1));
-            int phi3 = ((p - 1) * (q - 1));
-            int phi4 = ((p - 1) * (q - 1));
+            int phi = ((P - 1) * (Q - 1));
+            int phi2 = phi;
+            int phi3 = phi;
+            int phi4 = phi;
             int a;
             int contador = 0;
             int d = 1;
-            int e2 = NumerosPrimos.obtenerNumeroE(n, phi);
             int e = NumerosPrimos.obtenerNumeroE(n, phi);
+            int e2 = e;
             #endregion
 
             //Aqui se obtiene la primer columna
