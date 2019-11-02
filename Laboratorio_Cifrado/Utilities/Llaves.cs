@@ -20,9 +20,9 @@ namespace Laboratorio_Cifrado.Utilities
             //Declaracion de variables
             int n = P * Q;
             int phi = ((P - 1) * (Q - 1));
-            int phi2 = phi;
-            int phi3 = phi;
-            int phi4 = phi;
+            int phi2 = ((P - 1) * (Q - 1));
+            int phi3 = ((P - 1) * (Q - 1));
+            int phi4 = ((P - 1) * (Q - 1));
             int a;
             int contador = 0;
             int d = 1;
@@ -54,7 +54,7 @@ namespace Laboratorio_Cifrado.Utilities
                     int c = phi2 - Producto; //Obtenesmos c la cual pasa a ser la d al final
                     if (c < 0) //Este if sirve para evitar los números negativos
                     {
-                        c = phi3 % c; //Se aplica mod de phi siempre
+                        c = c%phi3; //Se aplica mod de phi siempre
                     }
                     phi2 = d; //Aquí ya va cambiando los valores para seguir con el ciclo
                     d = c; //Cuando el contador supere al arreglo, saldrá del ciclo y se obtendrá la d
