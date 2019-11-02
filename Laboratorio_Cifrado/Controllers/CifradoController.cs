@@ -15,6 +15,7 @@ namespace Laboratorio_Cifrado.Controllers
     {
         public static string directorioArchivos = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/");
         public static string directorioUploads = System.Web.HttpContext.Current.Server.MapPath("~/Archivos/Uploads/");
+        public static string directorioLlaves = System.Web.HttpContext.Current.Server.MapPath("~/Llaves/");
 
         public static string currentFile = "";
         public static string publicKey = "";
@@ -22,6 +23,7 @@ namespace Laboratorio_Cifrado.Controllers
 
         public ActionResult GenerarLlaves()
         {
+            CreateDirectories();
             return View();
         }
         [HttpPost]
@@ -91,6 +93,7 @@ namespace Laboratorio_Cifrado.Controllers
 
         public ActionResult Index()
         {
+            CreateDirectories();
             return View();
         }
         [HttpPost]
@@ -185,6 +188,22 @@ namespace Laboratorio_Cifrado.Controllers
         {
             return View();
         }
+
+        private void CreateDirectories()
+        {
+            if (!Directory.Exists(directorioArchivos))
+            {
+                Directory.CreateDirectory(directorioArchivos);
+            }
+            if (!Directory.Exists(directorioUploads))
+            {
+                Directory.CreateDirectory(directorioUploads);
+            }
+            if (!Directory.Exists(directorioLlaves))
+            {
+                Directory.CreateDirectory(directorioLlaves);
+            }
+        }
         
         #region download
         public ActionResult DownloadFile()
@@ -218,7 +237,7 @@ namespace Laboratorio_Cifrado.Controllers
         public void UploadFile(string path, HttpPostedFileBase file)
         {
             //Subir archivos al servidor
-
+            
             if (file != null && file.ContentLength > 0)
                 try
                 {
@@ -335,5 +354,6 @@ namespace Laboratorio_Cifrado.Controllers
         }
 
         #endregion
+        
     }
 }
