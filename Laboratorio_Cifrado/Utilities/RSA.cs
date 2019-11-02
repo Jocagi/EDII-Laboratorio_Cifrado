@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using Laboratorio_Cifrado.Controllers;
 using Laboratorio_Cifrado.Models;
 using Microsoft.Ajax.Utilities;
 using System.Text;
+using System.Numerics;
 
 namespace Laboratorio_Cifrado.Utilities
 {
@@ -56,8 +58,8 @@ namespace Laboratorio_Cifrado.Utilities
                         {
                             //Comprimir
                             int _byte = (int)item;
-                            long Potencia = (long)Math.Pow(_byte, power);
-                            long Mod = (Potencia % N);
+                            BigInteger Potencia = BigInteger.Pow(_byte, power);
+                            BigInteger Mod = (Potencia % N);
                             string Encriptado = Mod.ToString();
                             CompresionBytes.Add(ConvertStringToByte(Encriptado));
                         }
