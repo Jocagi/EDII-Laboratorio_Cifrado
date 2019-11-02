@@ -116,9 +116,11 @@ namespace Laboratorio_Cifrado.Utilities
                                     CompresionBytes.Add((Convert.ToByte(individualBits.Substring(0, 8), 2)));
                                     individualBits = individualBits.Remove(0, 8);
                                 }
+
+                                WriteToFile(rutaCifrado, CompresionBytes.ToArray());
+                                CompresionBytes.Clear();
                             }
                         }
-                        WriteToFile(rutaCifrado, CompresionBytes.ToArray());
                     }
 
                     if (individualBits.Length != 0)
